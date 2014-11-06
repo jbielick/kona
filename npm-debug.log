@@ -1,0 +1,62 @@
+0 info it worked if it ends with ok
+1 verbose cli [ '/usr/local/bin/node',
+1 verbose cli   '/usr/local/bin/npm',
+1 verbose cli   'install',
+1 verbose cli   '-D',
+1 verbose cli   'bunyun' ]
+2 info using npm@2.0.0
+3 info using node@v0.11.14
+4 warn package.json kona@0.1.0 No repository field.
+5 warn package.json kona@0.1.0 No README data
+6 verbose readDependencies using package.json deps
+7 verbose cache add [ 'bunyun', null ]
+8 verbose cache add spec="bunyun" args=["bunyun",null]
+9 verbose parsed spec { raw: 'bunyun',
+9 verbose parsed spec   scope: null,
+9 verbose parsed spec   name: 'bunyun',
+9 verbose parsed spec   rawSpec: '',
+9 verbose parsed spec   spec: '*',
+9 verbose parsed spec   type: 'range' }
+10 verbose parsed spec { raw: 'bunyun',
+10 verbose parsed spec   scope: null,
+10 verbose parsed spec   name: 'bunyun',
+10 verbose parsed spec   rawSpec: '',
+10 verbose parsed spec   spec: '*',
+10 verbose parsed spec   type: 'range' }
+11 verbose addNamed [ 'bunyun', '*' ]
+12 verbose addNamed [ null, '*' ]
+13 silly lockFile 6cc94970-bunyun bunyun@*
+14 verbose lock bunyun@* /Users/josh/.npm/6cc94970-bunyun.lock
+15 silly addNameRange { name: 'bunyun', range: '*', hasData: false }
+16 verbose mapToRegistry name bunyun
+17 verbose mapToRegistry uri https://registry.npmjs.org/bunyun
+18 silly lockFile 6cc94970-bunyun bunyun@*
+19 silly lockFile 6cc94970-bunyun bunyun@*
+20 verbose stack Error: 404 Not Found: bunyun
+20 verbose stack     at RegClient.<anonymous> (/usr/local/lib/node_modules/npm/node_modules/npm-registry-client/lib/request.js:259:14)
+20 verbose stack     at Request._callback (/usr/local/lib/node_modules/npm/node_modules/npm-registry-client/lib/request.js:198:65)
+20 verbose stack     at Request.self.callback (/usr/local/lib/node_modules/npm/node_modules/npm-registry-client/node_modules/request/request.js:123:22)
+20 verbose stack     at Request.emit (events.js:110:17)
+20 verbose stack     at Request.<anonymous> (/usr/local/lib/node_modules/npm/node_modules/npm-registry-client/node_modules/request/request.js:1047:14)
+20 verbose stack     at Request.emit (events.js:129:20)
+20 verbose stack     at IncomingMessage.<anonymous> (/usr/local/lib/node_modules/npm/node_modules/npm-registry-client/node_modules/request/request.js:998:12)
+20 verbose stack     at IncomingMessage.emit (events.js:129:20)
+20 verbose stack     at _stream_readable.js:907:16
+20 verbose stack     at process._tickCallback (node.js:372:11)
+21 verbose statusCode 404
+22 verbose pkgid bunyun
+23 verbose cwd /Users/josh/code/kona
+24 error Darwin 13.4.0
+25 error argv "/usr/local/bin/node" "/usr/local/bin/npm" "install" "-D" "bunyun"
+26 error node v0.11.14
+27 error npm  v2.0.0
+28 error code E404
+29 error 404 Not Found: bunyun
+29 error 404
+29 error 404 'bunyun' is not in the npm registry.
+29 error 404 You should bug the author to publish it (or use the name yourself!)
+29 error 404 It was specified as a dependency of 'kona'
+29 error 404
+29 error 404 Note that you can also install from a
+29 error 404 tarball, folder, http url, or git url.
+30 verbose exit [ 1, true ]
