@@ -25,7 +25,7 @@ program
   .description('start the application server')
   .action(function() {
     ensureApp();
-    require(path.join(__dirname, 'master'))(program, kona);
+    require(path.join(konaRoot, 'lib', 'master'))(program, kona);
   });
 
 program
