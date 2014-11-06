@@ -1,5 +1,7 @@
 var path = require('path');
 var konaRoot = path.resolve(__dirname, '..');
-var kona = require(path.join(konaRoot, 'lib', 'kona'));
+var Kona = require(path.join(konaRoot, 'lib', 'kona'));
+
+var kona = new Kona();
 
 kona.listen();
