@@ -23,4 +23,4 @@ test-travis:
 		$(TESTS) \
 		--bail
 
-.PHONY. test
+.PHONY: test
