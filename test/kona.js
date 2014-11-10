@@ -9,10 +9,8 @@ var http = require('http');
 var Kona = require('../lib/kona');
 chai.use(sinonChai);
 
-
 describe("Kona", function() {
   it('is a constructor', function() {
-    assert(!!Kona);
     expect(Kona).to.be.a('function');
   });
   it('configures itself', function() {

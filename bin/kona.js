@@ -1,5 +1,6 @@
 #!/usr/bin/env node --harmony
 
+var debug = require('debug')('kona');
 var path = require('path');
 var fs = require('fs');
 var path = require('path');
@@ -10,7 +11,8 @@ var program = require('commander');
 program
   .version(require(path.join(konaRoot, 'package.json')).version)
   .option('-e, --environment', 'the application environment to run')
-  .option('--debug', 'debug the application');
+  .option('--debug', 'start the application with debugger running')
+  .option('--debug-brk', 'start the application with an immediate debugger');
 
 program
   .command('new <appName>')

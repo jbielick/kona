@@ -22,3 +22,5 @@ test-travis:
 		-- -u exports \
 		$(TESTS) \
 		--bail
+
+.PHONY. test
