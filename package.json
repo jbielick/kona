@@ -7,6 +7,7 @@
     "test": "test"
   },
   "dependencies": {
+    "class-extend": "^0.1.1",
     "co-fs": "^1.2.0",
     "commander": "^2.3.0",
     "debug": "^2.1.0",
