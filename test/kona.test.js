@@ -6,7 +6,9 @@ var expect = chai.expect;
 var sinon = require('sinon');
 var sinonChai = require('sinon-chai');
 var http = require('http');
+var koa = require('koa');
 var Kona = require('../lib/kona');
+var fs = require('fs');
 chai.use(sinonChai);
 
 describe("Kona", function() {
@@ -30,10 +32,10 @@ describe("Kona", function() {
     var kona = new Kona();
     expect(kona.koa).to.be.an.instanceof(require('koa'));
   });
-  it('mounts middleware', function() {
+  it('mounts middleware via koa', function() {
+    var spy = sinon.spy(koa.prototype, 'use');
     var kona = new Kona();
-    var spy = sinon.spy(kona, 'use');
-    kona.bootstrap();
-    expect(spy).to.have.callCount(kona.middleware.length - 1);
+    var wares = kona._root.join('lib', 'middleware');
+    expect(spy).to.have.callCount(fs.readdirSync(wares).length + 1);
   });
 });
