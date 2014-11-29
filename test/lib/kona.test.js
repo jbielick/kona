@@ -83,8 +83,8 @@ describe("Kona", function() {
     });
 
     it('instantiates a logger', function() {
-
-      expect(app.log).to.be.a.function;
+      console.log('app LOG')
+      expect(app.log).to.be.a('object');
       ['info', 'error', 'warn'].forEach(function(level) {
         expect(app.log[level]).to.be.a('Function');
       });

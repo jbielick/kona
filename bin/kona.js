@@ -11,7 +11,6 @@ var program = require('commander');
 program
   .version(require(path.join(konaRoot, 'package.json')).version)
   .option('-e, --environment', 'the application environment to run')
-  .option('--worker')
   .option('--debug', 'start the application with debugger running')
   .option('--debug-brk', 'start the application with an immediate debugger');
 
@@ -22,7 +21,7 @@ program
   .description('start the application server')
   .action(function(env) {
     ensureApp();
-    if (!program.worker) {
+    if (!process.send) {
       require(path.join(konaRoot, 'lib', 'master'))(program);
     } else {
       (new Kona(program, env)).listen();
