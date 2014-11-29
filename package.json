@@ -1,17 +1,20 @@
 {
   "name": "kona",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "a premium Node.js MVC framework built on koa",
   "main": "lib/kona.js",
   "directories": {
     "test": "test"
   },
+  "repository": "https://github.com/jbielick/kona",
   "dependencies": {
+    "chalk": "^0.5.1",
     "class-extend": "^0.1.1",
     "co-fs": "^1.2.0",
     "commander": "^2.3.0",
     "debug": "^2.1.0",
     "fs-readdir-recursive": "0.0.2",
+    "hashjs": "^1.2.0",
     "koa": "^0.12.2",
     "koa-barista": "0.0.2",
     "koa-basic-auth": "^1.1.2",
@@ -29,7 +32,9 @@
     "koa-views": "^2.1.0",
     "lodash": "^2.4.1",
     "swig": "^1.4.2",
-    "utilities": "^1.0.4"
+    "underscore.inflections": "^0.2.1",
+    "utilities": "^1.0.4",
+    "winston": "^0.8.3"
   },
   "devDependencies": {
     "chai": "^1.9.2",
@@ -38,7 +43,8 @@
     "sinon": "^1.11.1",
     "sinon-chai": "^2.6.0",
     "statuses": "^1.2.0",
-    "supertest": "^0.14.0"
+    "supertest": "^0.14.0",
+    "test-console": "^0.7.1"
   },
   "scripts": {
     "test": "mocha --harmony test/**",
@@ -50,7 +56,9 @@
     "framework",
     "mvc",
     "koa",
-    "generator"
+    "generators",
+    "async",
+    "yield"
   ],
   "author": "Josh Bielick",
   "license": "MIT"

@@ -1,4 +1,5 @@
-TESTS = test/**/*
+TESTS = $$(find test -name *.js)
+EXCLUDE = bin/**
 
 test:
 	@NODE_ENV=test ./node_modules/.bin/mocha \
@@ -11,6 +12,7 @@ test-cov:
 		node_modules/.bin/istanbul cover \
 		./node_modules/.bin/_mocha \
 		-- -u exports \
+		-x $(EXCLUDE) \
 		$(TESTS) \
 		--bail
 
@@ -19,6 +21,7 @@ test-travis:
 		node_modules/.bin/istanbul cover \
 		./node_modules/.bin/_mocha \
 		--report lcovonly \
+		-x $(EXCLUDE) \
 		-- -u exports \
 		$(TESTS) \
 		--bail
