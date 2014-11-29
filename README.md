@@ -6,3 +6,9 @@ kona
 [![Coverage Status](https://img.shields.io/coveralls/jbielick/kona.svg)](https://coveralls.io/r/jbielick/kona)
 
 a premium node.js MVC application framework built on koa
+
+Usage:
+
+![example app generation][cli]
+
+[cli]: http://i.imgur.com/DPCTWY7.gif "Usage: generate a kona app"
