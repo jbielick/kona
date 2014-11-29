@@ -10,7 +10,9 @@ a premium node.js MVC application framework built on koa
 Usage:
 
 `npm install -G yo`
+
 `npm install -G generator-kona`
+
 `npm install -G kona`
 
 
