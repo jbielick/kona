@@ -89,14 +89,44 @@ module.exports = function drawRoutes(router) {
 }
 ```
 
+
+**pending**
+
 Model Exposure
 ----
 
-Would models in the global scope be cool? Sure. But it’s a terrible idea. Models can have any names, global scope would get horribly messy in big apps, it allows / encourages model usage in places it should necessarily be.
+Would models in the global scope be cool? Sure. But it’s probably not a good idea.
+Models can have any name—-the global namespace would get horribly messy in big apps, and
+it would allow / encourage model usage in places it ought not to be.
 
-Take list of models and defineProperty get accessor on any object to give it this.ModelName accessors that actually require the file over and over and rely on the require warm cache for those lookups. Invalidating the require cache means the accessor will I/O require the file again and get a fresh copy in dev. Require cache handles server the cached copy.
+Models are accessible as singular, PascalCase getters from the controller's `this` context.
+You can perform a query or model constructor method right inside the controller action like this:
 
-Controller’s should be extended with this functionality.
+```js
+index: function* () {
+
+  // User.find() is a function that returns a promise object
+  var users = yield this.User.find();
+
+  // respond to the request
+  this.respondTo({
+    json: function* () {
+      this.render({json: users});
+    },
+    html: function* () {
+      this.set('users', users);
+    }
+  })
+}
+```
+
+`this.ModelName` actually uses an getter function to require the model. When the application is in
+`development` environment, the model will be required and further accesses of the model
+will use the `require` warm cache for those fetches. When a model is saved in `development`
+environment, the cache of that model is deleted and the model is required from the file
+system again on demand. Models are lazily-loaded in development.
+
+**/pending**
 
 
 Autoloading
