@@ -60,7 +60,7 @@ For example:
 
 If your application had a directory structure like this:
 
-```js
+```
   app/
     controllers/
       geographies-controller.js
@@ -72,6 +72,8 @@ If your application had a directory structure like this:
 and `CountriesController.js` extended `GeographiesController` like this:
 
 ```js
+// app/controllers/geographies/countries-controller.js
+
 var GeographyController = require('../geographies-controller');
 
 var CountriesController = GeographiesController.extend({
@@ -84,6 +86,8 @@ var CountriesController = GeographiesController.extend({
 You can route a request to the `CountriesController#show` method like this:
 
 ```js
+// config/routes.js
+
 module.exports = function drawRoutes(router) {
   router.get('/countries/:id').to('geographies/countries.show');
 }
@@ -103,6 +107,9 @@ Models are accessible as singular, PascalCase getters from the controller's `thi
 You can perform a query or model constructor method right inside the controller action like this:
 
 ```js
+
+// foo-controller.js
+
 index: function* () {
 
   // User.find() is a function that returns a promise object
