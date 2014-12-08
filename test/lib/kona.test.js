@@ -63,25 +63,6 @@ describe("Kona", function() {
       expect(app.version).to.eq(require('../../package').version);
     });
 
-    it('sets the environment property', function() {
-
-      var nodeEnv = process.env['NODE_ENV'];
-      expect(app.env).to.eql(process.env['NODE_ENV']);
-
-      delete process.env['NODE_ENV'];
-      app.bootstrap({environment: 'test2'});
-      expect(app.env).to.eql('test2');
-
-      app.bootstrap({}, 'test3');
-      expect(app.env).to.eql('test3');
-
-      app.bootstrap({});
-      expect(app.env).to.eql('development');
-
-      process.env['NODE_ENV'] = nodeEnv;
-
-    });
-
     it('instantiates a logger', function() {
 
       expect(app.log).to.be.a('object');
@@ -97,37 +78,6 @@ describe("Kona", function() {
       app.bootstrap({});
       expect(spy).to.have.been.called;
 
-    });
-
-  });
-
-  describe('#buildStack', function() {
-
-    it('mounts middleware via koa', function() {
-
-      var app = new Kona(),
-          spy = sinon.spy(app, 'use'),
-          middleWarez = app._root.join('lib', 'middleware');
-
-      app.buildStack(app.config);
-      expect(spy).to.have.callCount(fs.readdirSync(middleWarez).length + 1);
-
-    });
-
-  });
-
-  describe('#loadObjects', function() {
-
-    var app;
-
-    before(function() {
-      app = new Kona();
-    });
-
-    it('recursively loads objects and keys their exported constructors by their path');
-
-    after(function() {
-      // delete all
     });
 
   });

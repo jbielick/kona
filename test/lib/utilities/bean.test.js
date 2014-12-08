@@ -11,5 +11,9 @@ describe('the bean', function() {
     message = bean('1337', 'h4x');
     expect(message).to.include('1337');
     expect(message).to.include('h4x');
+
+    expect(function() {
+      message = bean();
+    }).to.not.throw(Error);
   });
 });

@@ -1,5 +1,11 @@
-TESTS = $$(find test -name *.js)
+TESTS = $$(find test -name *.test.js)
 EXCLUDE = bin/**
+
+clean:
+	@NODE_ENV=test rm -rf ./test/integration/testApp
+
+test-app:
+	@cd test/integration && yo kona testApp && cd ../..
 
 test:
 	@NODE_ENV=test ./node_modules/.bin/mocha \
@@ -26,4 +32,4 @@ test-travis:
 		$(TESTS) \
 		--bail
 
-.PHONY: test
+.PHONY: test clean test-clean

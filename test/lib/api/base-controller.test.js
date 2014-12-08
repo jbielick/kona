@@ -18,8 +18,8 @@ describe('BaseController', function() {
     var controller, ctx;
 
     beforeEach(function() {
-      ctx = {request: {}, router: {}};
-      controller = new BaseController(ctx);
+      ctx = {locals: {}, request: {}, router: {}};
+      controller = new BaseController(ctx, kona);
     });
 
     describe('given a key-value pair', function() {
@@ -80,14 +80,14 @@ describe('BaseController', function() {
     var controller, ctx;
 
     beforeEach(function() {
-      ctx = {
+      ctx = {locals: {},
         request: {
           accepts: function() {}
         },
         router: {},
         throw: function() {}
       };
-      controller = new BaseController(ctx);
+      controller = new BaseController(ctx, kona);
     });
 
     describe('when no type: *responder object is given', function() {
@@ -159,8 +159,8 @@ describe('BaseController', function() {
     var controller, ctx;
 
     beforeEach(function() {
-      ctx = {request: {}, router: {}};
-      controller = new BaseController(ctx);
+      ctx = {locals: {}, request: {}, router: {}};
+      controller = new BaseController(ctx, kona);
     });
 
     it('adds the respond content-type to an private array', function() {
@@ -182,8 +182,8 @@ describe('BaseController', function() {
     var controller, ctx;
 
     beforeEach(function() {
-      ctx = {request: {}, router: {}, throw: function() {}};
-      controller = new BaseController(ctx);
+      ctx = {locals: {}, request: {}, router: {}, throw: function() {}};
+      controller = new BaseController(ctx, kona);
     });
 
     it('stores the render call arguments for the responder', function() {
@@ -218,8 +218,8 @@ describe('BaseController', function() {
     var controller, ctx;
 
     beforeEach(function() {
-      ctx = {request: {}, router: {}};
-      controller = new BaseController(ctx);
+      ctx = {locals: {}, request: {}, router: {}};
+      controller = new BaseController(ctx, kona);
     });
 
     it('registers {before|after}Filter functions', function() {
@@ -240,7 +240,7 @@ describe('BaseController', function() {
     var controller, ctx;
 
     beforeEach(function() {
-      ctx = {request: {}, router: {}};
+      ctx = {locals: {}, request: {}, router: {}};
       controller = new (BaseController.extend({
         before: function*() {},
         after: function*() {}
@@ -249,7 +249,7 @@ describe('BaseController', function() {
 
     it('calls all before filters', function() {
 
-      var spy = sinon.spy(controller.__proto__, 'before');
+      var spy = sinon.spy(Object.getPrototypeOf(controller), 'before');
       controller.beforeFilter('before');
       var gen = controller.callBeforeFilters();
       gen.next();
@@ -259,7 +259,7 @@ describe('BaseController', function() {
 
     it('calls all after filters', function() {
 
-      var spy = sinon.spy(controller.__proto__, 'after');
+      var spy = sinon.spy(Object.getPrototypeOf(controller), 'after');
       controller.afterFilter('after');
       var gen = controller.callAfterFilters();
       gen.next();
