@@ -1,7 +1,6 @@
 var path = require('path');
 var chai = require('chai');
 var expect = chai.expect;
-var stdout =  require("test-console").stdout;
 var Kona = require(path.join(__dirname.replace('test', ''), 'kona'));
 var binPath = __filename.replace(/.test/g, '');
 var exec = require('child_process').exec;
