@@ -23,17 +23,25 @@ describe("Kona", function() {
       app = new Kona();
     });
 
-    it('accepts an environment as the second argument to constructor', function() {
-      app = new Kona(null, 'dev');
-      expect(app.env).to.eq('dev');
+    it('default to NODE_ENV environment or "development"', function() {
+      var nodeEnv = process.env.NODE_ENV,
+          app2, app3;
+      expect(app.env).to.eq(nodeEnv);
+      process.env.NODE_ENV = 'production'
+      app2 = new Kona();
+      expect(app2.env).to.eq('production');
+      delete process.env.NODE_ENV;
+      app3 = new Kona();
+      expect(app3.env).to.eq('development');
+      process.env.NODE_ENV = nodeEnv;
     });
 
     it('configures itself', function() {
       expect(app.config).to.be.an('object');
     });
 
-    it('mounts a koa app', function( ){
-      expect(app.koa).to.be.an.instanceof(require('koa'));
+    it('extends Koa', function( ){
+      expect(app).to.be.an.instanceof(koa);
     });
 
   });
@@ -72,9 +80,9 @@ describe("Kona", function() {
 
     })
 
-    it('calls #mount', function() {
+    it('calls #mountBaseModules', function() {
 
-      var spy = sinon.spy(app.__proto__, 'mount');
+      var spy = sinon.spy(Object.getPrototypeOf(app), 'mountBaseModules');
       app.bootstrap({});
       expect(spy).to.have.been.called;
 
@@ -110,15 +118,14 @@ describe("Kona", function() {
 
     });
 
-    it('calls koa.listen', function() {
+    it('starts a server', function() {
 
       var app = new Kona(),
-          spy = sinon.spy(app.koa.__proto__, 'listen'),
           server;
 
       server = app.listen(9999);
 
-      expect(spy).to.have.been.calledWith(9999);
+      expect(server).to.be.an.instanceof(require('http').Server);
 
       server.close();
 

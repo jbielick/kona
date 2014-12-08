@@ -16,16 +16,22 @@ program
 
 /* istanbul ignore next */
 program
-  .command('server [env]')
+  .command('server')
   .alias('s')
   .description('start the application server')
-  .action(function(env) {
+  .action(function() {
     ensureApp();
-    if (!process.send) {
-      require(path.join(konaRoot, 'lib', 'master'))(program);
-    } else {
-      (new Kona(program, env)).listen();
-    }
+    (new Kona(program)).listen();
+  });
+
+/* istanbul ignore next */
+program
+  .command('routes')
+  .description('view the application routes (text)')
+  .action(function() {
+    ensureApp();
+    console.log((new Kona(program)).router.toString());
+    process.exit(0);
   });
 
 /* istanbul ignore next */
