@@ -61,7 +61,9 @@
     "async",
     "yield"
   ],
-  "engines" : { "node" : ">=0.11.0" },
+  "engines": {
+    "node": ">=0.11.0"
+  },
   "engineStrict": true,
   "author": "Josh Bielick <jbielick@gmail.com> (http://joshbielick.com)",
   "license": "MIT"
