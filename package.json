@@ -1,6 +1,6 @@
 {
   "name": "kona",
-  "version": "0.4.0",
+  "version": "0.4.1",
   "description": "a premium Node.js MVC framework built on koa",
   "main": "./lib/kona.js",
   "directories": {
@@ -60,7 +60,9 @@
     "async",
     "yield"
   ],
-  "engines" : { "node" : ">=0.11.0" },
+  "engines": {
+    "node": ">=0.11.0"
+  },
   "engineStrict": true,
   "author": "Josh Bielick <jbielick@gmail.com> (http://joshbielick.com)",
   "license": "MIT"
