@@ -93,11 +93,22 @@ module.exports = function drawRoutes(router) {
 }
 ```
 
+Plugins
+----
 
 **pending**
 
+
+WebSockets
+----
+
+**pending**
+
+
 Model Exposure
 ----
+
+**pending**
 
 Would models in the global scope be cool? Sure. But it’s probably not a good idea.
 Models can have any name—-the global namespace would get horribly messy in big apps, and
