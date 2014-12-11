@@ -1,13 +1,12 @@
 {
   "name": "kona",
-  "version": "0.4.1",
+  "version": "0.4.2",
   "description": "a premium Node.js MVC framework built on koa",
   "bin": "./bin/kona.js",
   "main": "./lib/kona.js",
   "directories": {
     "test": "test"
   },
-  "bin": "./bin/kona.js",
   "repository": "https://github.com/jbielick/kona",
   "dependencies": {
     "chalk": "^0.5.1",
