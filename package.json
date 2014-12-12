@@ -1,6 +1,6 @@
 {
   "name": "kona",
-  "version": "0.4.2",
+  "version": "0.4.3",
   "description": "a premium Node.js MVC framework built on koa",
   "bin": "./bin/cli.js",
   "main": "./lib/kona.js",
