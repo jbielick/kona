@@ -1,7 +1,7 @@
 var path = require('path');
 var chai = require('chai');
 var expect = chai.expect;
-var Kona = require(path.join(__dirname.replace('test', ''), 'kona'));
+var Kona = require(path.join(__dirname.replace('test', ''), 'cli'));
 var binPath = __filename.replace(/.test/g, '');
 var exec = require('child_process').exec;
 
