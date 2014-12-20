@@ -4,12 +4,12 @@ var debug = require('debug')('kona');
 var path = require('path');
 var fs = require('fs');
 var path = require('path');
-var konaRoot = path.resolve(__dirname, '..');
-var Kona = require(path.join(konaRoot, 'lib', 'kona'));
+var pckgRoot = path.resolve(__dirname, '..');
+var Kona = require(path.join(pckgRoot, 'lib', 'kona'));
 var program = require('commander');
 
 program
-  .version(require(path.join(konaRoot, 'package.json')).version)
+  .version(require(path.join(pckgRoot, 'package.json')).version)
   .option('-e, --environment', 'the application environment to run')
   .option('--debug', 'start the application with debugger running')
   .option('--debug-brk', 'start the application with an immediate debugger');
@@ -21,7 +21,9 @@ program
   .description('start the application server')
   .action(function() {
     ensureApp();
-    (new Kona(program)).listen();
+    new Kona(program, function() {
+      this.listen();
+    });
   });
 
 /* istanbul ignore next */
@@ -30,8 +32,12 @@ program
   .description('view the application routes (text)')
   .action(function() {
     ensureApp();
-    console.log((new Kona(program)).router.toString());
-    process.exit(0);
+    new Kona(program, function() {
+      console.log();
+      console.log(this.router.toString());
+      console.log();
+      process.exit(0);
+    });
   });
 
 /* istanbul ignore next */
@@ -41,7 +47,9 @@ program
   .description('start the Kona console REPL')
   .action(function() {
     ensureApp();
-    (new Kona(program)).console();
+    new Kona(program, function() {
+      this.console();
+    });
   });
 
 program.parse(process.argv);

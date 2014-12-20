@@ -1,4 +1,4 @@
-TESTS = $$(find test -name *.test.js)
+TESTS = $$(find test/lib -name *.test.js)
 EXCLUDE = bin/**
 
 clean:

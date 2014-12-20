@@ -4,7 +4,6 @@ var Kona = require('../../../lib/kona');
 var exec = require('child_process').exec;
 var Logger = require('winston').Logger;
 var path = require('path');
-
 var logPath = '/tmp/kona.log';
 
 describe('Extension: logger', function() {

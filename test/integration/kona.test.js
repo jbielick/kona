@@ -16,18 +16,27 @@ describe('Application', function() {
 
   it('displays the home page', function(done) {
     app = new Kona({root: path.join(__dirname, 'testApp')});
-    request(app.listen())
-      .get('/')
-      .expect(200)
-      .expect(/grind/)
-      .end(done);
+    app.on('ready', function() {
+
+      request(this.listen())
+        .get('/')
+        .expect(200)
+        .expect(/grind/)
+        .end(done);
+
+    });
   });
 
   it('displays the home page', function(done) {
     app = new Kona({root: path.join(__dirname, 'testApp')});
-    request(app.listen())
-      .get('/nonexistent')
-      .expect(404)
-      .end(done);
+
+    app.on('ready', function() {
+
+      request(this.listen())
+        .get('/nonexistent')
+        .expect(404)
+        .end(done);
+
+    });
   });
 });
