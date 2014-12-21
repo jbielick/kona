@@ -5,6 +5,8 @@ var sinon = require('sinon');
 chai.use(require('sinon-chai'));
 var Kona = require(path.join(__dirname.replace('test', ''), '..', 'kona'));
 var BaseController = require(__filename.replace(/.test/g, ''));
+var co = require('co');
+var Writable = require('stream').Writable;
 
 describe('controller/base', function() {
   var kona;
@@ -18,7 +20,7 @@ describe('controller/base', function() {
     var controller, ctx;
 
     beforeEach(function() {
-      ctx = {locals: {}, request: {}, router: {}};
+      ctx = getCtx(),
       controller = new BaseController(ctx, kona);
     });
 
@@ -159,7 +161,7 @@ describe('controller/base', function() {
     var controller, ctx;
 
     beforeEach(function() {
-      ctx = {locals: {}, request: {}, router: {}};
+      ctx = getCtx(),
       controller = new BaseController(ctx, kona);
     });
 
@@ -218,7 +220,7 @@ describe('controller/base', function() {
     var controller, ctx;
 
     beforeEach(function() {
-      ctx = {locals: {}, request: {}, router: {}};
+      ctx = getCtx(),
       controller = new BaseController(ctx, kona);
     });
 
@@ -240,7 +242,7 @@ describe('controller/base', function() {
     var controller, ctx;
 
     beforeEach(function() {
-      ctx = {locals: {}, request: {}, router: {}};
+      ctx = getCtx(),
       controller = new (BaseController.extend({
         before: function*() {},
         after: function*() {}
@@ -283,4 +285,84 @@ describe('controller/base', function() {
 
   });
 
+  describe('::addRenderer', function() {
+    it('explodes when type is not given and render is not a function', function() {
+
+      expect(function() {
+        BaseController.addRenderer(function() {});
+      }).to.throw(Error);
+
+      expect(function() {
+        BaseController.addRenderer('josn', function() {});
+      }).to.throw(Error);
+
+      expect(function() {
+        BaseController.addRenderer('josn', function*() {});
+      }).to.not.throw(Error);
+
+    });
+  });
+
+  describe('::getRenderer', function() {
+    it('returns the renderer by type', function() {
+      var renderer = function*() {
+        return yield '|_|_|1|_|3|_|_|1|_|';
+      };
+      BaseController.addRenderer('xlsx', renderer);
+
+      expect(BaseController.getRenderer('xlsx')).to.eq(renderer);
+    });
+  });
+
+  describe('renderers', function() {
+
+    var map = {
+      html: '<html>',
+      json: {one: 'two'},
+      stream: new Writable(),
+      buffer: new Buffer('hello'),
+      text: 'one two three'
+    };
+
+    Object.keys(map).forEach(function(type) {
+      describe(type, function() {
+        it('returns their input when handled by koa', function() {
+          var renderer = BaseController.getRenderer(type),
+              data = map[type];
+
+          co.wrap(renderer)(data).then(function(returned) {
+            expect(returned).to.eq(data);
+          });
+        })
+      });
+    });
+  });
+
+  describe('#respondWith', function() {
+
+    it('', function() {
+      var error,
+          ctx = getCtx(),
+          ctrl = new BaseController(ctx),
+          spy = sinon.spy(Object.getPrototypeOf(ctrl), 'respondTo');
+
+      ctrl.respondsTo('html', 'json');
+
+      co.wrap(ctrl.respondWith).call(ctrl, {some: 'object'})
+        .catch(function(err) {
+          error = err;
+        });
+
+      if (error) { throw error; }
+
+      expect(spy).to.have.been.called;
+
+    })
+
+  });
+
 });
+
+function getCtx() {
+  return {locals: {}, request: {}, router: {}};
+}

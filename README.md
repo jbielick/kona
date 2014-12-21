@@ -5,9 +5,30 @@ kona
 [![Build Status](https://travis-ci.org/jbielick/kona.svg)](https://travis-ci.org/jbielick/kona)
 [![Coverage Status](https://img.shields.io/coveralls/jbielick/kona.svg)](https://coveralls.io/r/jbielick/kona)
 
-a premium, node.js MVC application framework built on koa
 
-it's like an application framework after it's had a cup of coffee.
+What is it?
+----
+
+Kona is currently under development, but will be published on [NPM](https://www.npmjs.com/package/kona)
+as features are developed.
+
+Kona is an application framework. It's mission is to make developing really fast
+Node.js applications fun and productive. It's a framework that works as fast as
+you do after a cup of coffee in the morning.
+
+Kona's focus is loosely-coupled simplicity.
+There aren't a million configurations (yet), you can't use your own middleware in place of
+ours, you don't need 5 json documents to tell it how to start. The basis of the
+entire application is [Koa.js](https://github.com/koajs/koa) and the middleware
+stack is made up of simple, efficient and modular components. Not sure how Koa works?
+[Kick-Off-Koa](https://github.com/koajs/kick-off-koa) may help.
+
+Kona uses [Generator Functions](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/function*).
+It's an ECMA Script 6 proposal allowing functions to suspend execution and yield
+to another. This allows your controller code to return query results as simply as
+`var users = yield User.findAll();`. Make sure to checkout the [Koa workshop](https://github.com/koajs/workshop)
+or [this helpful video](http://knowthen.com/episode-2-understanding-javascript-generators/)
+if you're new to generators.
 
 
 Installation:
@@ -21,11 +42,24 @@ Next, you'll want to install the [generator-kona](https://github.com/jbielick/ge
 
 `npm install -G generator-kona`
 
-Now you're ready to install Kona. It also needs to be global so you can use the command-line shortcuts and utilities!
+Now you've got yeoman and the kona application generator. Just generate a new
+kona application to get started.
 
-`npm install -G kona`
+`yo kona myApplication`
 
-then...
+The kona application generator will build an application in the directory `myApplication`.
+It will then run `npm install` and `bower install` to install the server and client
+dependencies you need to run your new application.
+
+Now let's enter the the app directory with `cd myApplication`
+
+The generator will also install the `kona` module locally in your `node_modules` folder.
+
+To start the kona application, just use the command-line interface like so to start the server:
+
+`./node_modules/.bin/kona server`
+
+
 
 ![example app generation][cli]
 
@@ -128,7 +162,7 @@ Now you can use redis in your controller action as simply as:
 ```
 
 
-WebSockets
+PubSub (WebSockets)
 ----
 
 **pending**
@@ -216,3 +250,8 @@ app/
     main/
       home.html
 ```
+
+Contributing
+----
+
+Pull Requests are welcome.

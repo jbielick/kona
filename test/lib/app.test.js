@@ -4,18 +4,20 @@ var chai = require('chai');
 var expect = chai.expect;
 var sinon = require('sinon');
 chai.use(require('sinon-chai'));
-var Kona = require(path.join(__dirname.replace('test', ''), '..', 'lib', 'kona'));
+var Kona = require(path.join(__dirname.replace('test', ''), 'kona'));
+var appPath = path.join(__dirname, '..', 'fixtures', 'testApp');
 
 describe('Application', function() {
 
   var app;
 
   beforeEach(function() {
-
+    app = new Kona({root: appPath});
   });
 
   it('displays the home page', function(done) {
-    app = new Kona({root: path.join(__dirname, 'testApp')});
+
+    app.initialize();
     app.on('ready', function() {
 
       request(this.listen())
@@ -28,8 +30,8 @@ describe('Application', function() {
   });
 
   it('displays the home page', function(done) {
-    app = new Kona({root: path.join(__dirname, 'testApp')});
 
+    app.initialize();
     app.on('ready', function() {
 
       request(this.listen())
@@ -39,4 +41,20 @@ describe('Application', function() {
 
     });
   });
+
+  it('eager-loads modules when config.eagerLoadModules is truthy', function(done) {
+
+    app.hooks['spy'] = {
+      initialize: function* () {
+        this.inApp = true;
+        this.config.eagerLoadModules = true;
+      }
+    };
+
+    app.initialize().on('ready', function() {
+      expect();
+      done();
+    });
+  });
+
 });

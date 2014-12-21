@@ -11,6 +11,7 @@ var program = require('commander');
 program
   .version(require(path.join(pckgRoot, 'package.json')).version)
   .option('-e, --environment', 'the application environment to run')
+  .option('-p, --port', 'the port to run the kona server on')
   .option('--debug', 'start the application with debugger running')
   .option('--debug-brk', 'start the application with an immediate debugger');
 
@@ -21,8 +22,9 @@ program
   .description('start the application server')
   .action(function() {
     ensureApp();
-    new Kona(program, function() {
-      this.listen();
+    var app = new Kona(program);
+    app.initialize().on('ready', function() {
+      this.listen(program.port);
     });
   });
 
@@ -32,7 +34,8 @@ program
   .description('view the application routes (text)')
   .action(function() {
     ensureApp();
-    new Kona(program, function() {
+    var app = new Kona(program);
+    app.initialize().on('ready', function() {
       console.log();
       console.log(this.router.toString());
       console.log();
@@ -47,7 +50,8 @@ program
   .description('start the Kona console REPL')
   .action(function() {
     ensureApp();
-    new Kona(program, function() {
+    var app = new Kona(program);
+    app.initialize().on('ready', function() {
       this.console();
     });
   });

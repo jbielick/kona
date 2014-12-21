@@ -18,15 +18,10 @@ describe("Kona", function() {
 
   describe('constructor', function() {
 
-    var app;
-
-    beforeEach(function() {
-      app = new Kona();
-    });
-
     it('default to NODE_ENV environment or "development"', function() {
       var nodeEnv = process.env.NODE_ENV,
-          app2, app3;
+          app, app2, app3;
+      app = new Kona();
       expect(app.env).to.eq(nodeEnv);
       process.env.NODE_ENV = 'production'
       app2 = new Kona();
@@ -37,17 +32,34 @@ describe("Kona", function() {
       process.env.NODE_ENV = nodeEnv;
     });
 
+    it('extends Koa', function( ){
+      var app = new Kona();
+      expect(app).to.be.an.instanceof(koa);
+    });
+
+  });
+
+  describe('#initialize', function() {
     it('configures itself', function(done) {
-      var app = new Kona().on('ready', function() {
+      var app = new Kona();
+      app.initialize().on('ready', function() {
         expect(this.config).to.be.an('object');
         done();
       });
     });
 
-    it('extends Koa', function( ){
-      expect(app).to.be.an.instanceof(koa);
-    });
+    it('throws when called twice', function(done) {
 
+      var app = new Kona();
+
+      app.initialize().once('ready', function() {
+        expect(function() {
+          app.initialize();
+        }).to.throw(Error);
+        done();
+      });
+
+    });
   });
 
   describe('#bootstrap', function() {
@@ -57,61 +69,34 @@ describe("Kona", function() {
         LivePath = require(path.join(__dirname.replace('test', ''), 'support')).LivePath;
 
     beforeEach(function() {
-      app = Object.create(Kona.prototype);
-      promise = co.wrap(app.bootstrap).call(app, {});
+      app = new Kona();
     });
 
-    it('creates a LivePath of the process.cwd root', function(done) {
-      promise.then(function() {
-        expect(app.root).to.be.an.instanceof(LivePath);
-        expect(app.root.toString()).to.eql(process.cwd());
-        done();
-      }).catch(function(err) {
-        done(err);
+    it('creates a LivePath of the process.cwd root', function() {
+      expect(app.root).to.be.an.instanceof(LivePath);
+      expect(app.root.toString()).to.eql(process.cwd());
+    });
+
+    it('creates a LivePath of the Kona module root', function() {
+      expect(app._root).to.be.an.instanceof(LivePath);
+    });
+
+    it('reads the version from the package.json', function() {
+      expect(app.version).to.eq(require('../../package').version);
+    });
+
+    it('instantiates a logger', function() {
+      expect(app.log).to.be.a('object');
+      ['info', 'error', 'warn'].forEach(function(level) {
+        expect(app.log[level]).to.be.a('Function');
       });
     });
 
-    it('creates a LivePath of the Kona module root', function(done) {
-      promise.then(function() {
-        expect(app._root).to.be.an.instanceof(LivePath);
-        done();
-      }).catch(function(err) {
-        done(err);
-      });
-    });
-
-    it('reads the version from the package.json', function(done) {
-      promise.then(function() {
-        expect(app.version).to.eq(require('../../package').version);
-        done();
-      }).catch(function(err) {
-        done(err);
-      });
-    });
-
-    it('instantiates a logger', function(done) {
-
-      promise.then(function() {
-        expect(app.log).to.be.a('object');
-        ['info', 'error', 'warn'].forEach(function(level) {
-          expect(app.log[level]).to.be.a('Function');
-        });
-        done();
-      }).catch(function(err) {
-        done(err);
-      });
-
-    });
-
-    it('calls #mountBaseModules', function(done) {
+    it('calls #mountBaseModules', function() {
       var app = Object.create(Kona.prototype),
           spy = sinon.spy(Object.getPrototypeOf(app), 'mountBaseModules');
-      co.wrap(app.bootstrap).call(app, {}).then(function() {
-        expect(spy).to.have.been.called;
-        done();
-      }).catch(function(err) {
-        done(err);
-      });
+      app.bootstrap({});
+      expect(spy).to.have.been.called;
     });
 
   });
@@ -119,8 +104,9 @@ describe("Kona", function() {
   describe('#console', function() {
 
     it('doesn\'t explode', function(done) {
-      var repl;
-      new Kona({}, function() {
+      var repl,
+          app = new Kona()
+      app.initialize().on('ready', function() {
         expect(function() {
           repl = this.console();
         }.bind(this)).to.not.throw(Error);
@@ -131,11 +117,69 @@ describe("Kona", function() {
 
   });
 
+  describe('#watchModules', function() {
+
+    it('calls #watch on the config.watch targets', function(done) {
+
+      var app = new Kona(),
+          spy = sinon.spy(Object.getPrototypeOf(app), 'watch');
+
+      app.initialize().on('ready', function() {
+
+        app.watchModules();
+        expect(spy).to.have.callCount(app.config.watch.length + 1);
+        done();
+
+      });
+
+    });
+
+  });
+
+  describe('#hook', function() {
+
+    it('calls the hook name method on all this.hooks that respond', function() {
+
+      var app = new Kona(),
+          spy1 = sinon.spy(),
+          spy2 = sinon.spy(),
+          error;
+
+      app.hooks = {
+        one: {
+          ahook: function* () { spy1(); },
+        },
+        two: {
+          another: function* () { spy2(); }
+        }
+      };
+
+      co.wrap(app.hook).call(app, 'ahook').catch(function(err) {
+        error = err;
+      });
+
+      if (error) {throw error;}
+
+      expect(spy1).to.have.been.called;
+
+      co.wrap(app.hook).call(app, 'another').catch(function(err) {
+        error = err;
+      });
+
+      if (error) {throw error;}
+
+      expect(spy1).to.have.been.called;
+    });
+
+  });
+
   describe('#listen', function() {
 
     it('starts a node http server', function(done) {
 
-      new Kona({}, function() {
+      var app = new Kona();
+
+      app.initialize().on('ready', function() {
         var server = this.listen(9999);
 
         expect(server).to.be.truthy;
@@ -147,9 +191,21 @@ describe("Kona", function() {
 
     });
 
+    it('throws if called before #initialize', function() {
+
+      var app = new Kona();
+
+      expect(function() {
+        app.listen();
+      }).to.throw(Error);
+
+    });
+
     it('starts a server', function(done) {
 
-      new Kona({}, function() {
+      var app = new Kona();
+
+      app.initialize().on('ready', function() {
         var server;
 
         server = this.listen(9999);
