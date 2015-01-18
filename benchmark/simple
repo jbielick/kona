@@ -15,7 +15,7 @@ app.initialize().on('ready', function() {
   var args = [
     'siege',
     '--benchmark',
-    '--log=' + path.join(__dirname, 'siege.log'),
+    '--log=./benchmark/siege.log',
     '--quiet',
     '--concurrent=500',
     '--time=20s',
