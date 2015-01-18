@@ -105,6 +105,31 @@ describe('controller/base', function() {
 
     });
 
+    describe('when router provides explicit format', function() {
+
+      it("uses that format (trump)", function() {
+
+        var spy = sinon.spy(controller, 'throw'),
+            acceptSpy = sinon.spy(controller.request, 'accepts'),
+            htmlSpy = sinon.spy(),
+            router = {match: {format: 'xml'}},
+            formatStub,
+            gen;
+
+        controller.ctx.router = router;
+
+        co(function* () {
+          yield controller.respondTo({
+            html: function* () {htmlSpy();}
+          });
+        });
+
+        expect(acceptSpy).to.not.have.been.called;
+        expect(spy).to.be.calledWith(406);
+      });
+
+    });
+
     describe('when no type: *responder matches the accept type', function() {
 
       it("throws a 406", function() {
@@ -114,6 +139,7 @@ describe('controller/base', function() {
             htmlSpy = sinon.spy(),
             jsonSpy = sinon.spy(),
             gen;
+
         gen = controller.respondTo({
           html: function*() {
             htmlSpy();

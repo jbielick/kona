@@ -39,7 +39,7 @@ program
       console.log();
       console.log(this.router.toString());
       console.log();
-      process.exit(0);
+      app.shutdown();
     });
   });
 

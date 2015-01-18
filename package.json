@@ -35,6 +35,7 @@
     "koa-static": "^1.4.7",
     "koa-views": "^2.1.1",
     "lodash": "^2.4.1",
+    "node-cache": "^1.0.3",
     "require-all": "^1.0.0",
     "swig": "^1.4.2",
     "underscore.inflections": "^0.2.1",

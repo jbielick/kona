@@ -1,5 +1,5 @@
 {
-  "name": "integration",
+  "name": "fixtures",
   "version": "0.0.0",
   "dependencies": {
     "foundation": "~5.4.7",

@@ -2,10 +2,10 @@ TESTS = $$(find test/lib -name *.test.js)
 EXCLUDE = bin/**
 
 clean:
-	@NODE_ENV=test rm -rf ./test/integration/testApp
+	@NODE_ENV=test rm -rf ./test/fixtures/testApp
 
-test-app:
-	@cd test/integration && yo kona testApp && cd ../..
+test-app: clean
+	@cd test/fixtures && yo kona testApp && cd ../..
 
 test:
 	@NODE_ENV=test ./node_modules/.bin/mocha \
@@ -22,6 +22,9 @@ test-cov:
 		$(TESTS) \
 		--bail
 
+benchmark:
+	@NODE_ENV=production ./benchmark/simple
+
 test-travis:
 	@NODE_ENV=test node --harmony \
 		node_modules/.bin/istanbul cover \
@@ -32,4 +35,4 @@ test-travis:
 		$(TESTS) \
 		--bail
 
-.PHONY: test clean test-clean
+.PHONY: test clean benchmark

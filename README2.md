@@ -256,34 +256,5 @@ Contributing
 
 Pull Requests are welcome.
 
-Benchmarks
-----
-
-```
-%benchmarks
-siege
-  --benchmark
-  --log=/Users/josh/code/kona/benchmark/siege.log
-  --quiet
-  --concurrent=500
-  --time=20s
-  http://localhost:3001?foo=bar&baz[qux]=souix
-
-Lifting the server siege...-      done.
-
-Transactions:		       15156 hits
-Availability:		       99.82 %
-Elapsed time:		       19.09 secs
-Data transferred:	       51.66 MB
-Response time:		        0.60 secs
-Transaction rate:	      793.92 trans/sec
-Throughput:		        2.71 MB/sec
-Concurrency:		      476.55
-Successful transactions:       15156
-Failed transactions:	          28
-Longest transaction:	        0.89
-Shortest transaction:	        0.08
-
-
-%endbenchmarks
-```
+benchmarks
+endbenchmarks
