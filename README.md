@@ -23,9 +23,9 @@ entire application is [Koa.js](https://github.com/koajs/koa) and the middleware
 stack is made up of simple, efficient and modular components. Not sure how Koa works?
 [Kick-Off-Koa](https://github.com/koajs/kick-off-koa) may help.
 
-Kona uses [Generator Functions](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/function*).
-It's an ECMA Script 6 proposal allowing functions to suspend execution and yield
-to another. This allows your controller code to return query results as simply as
+Kona uses ES6 [Generator Functions](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/function*).
+It's an ECMA Script 6 proposal allowing the use of generators (functions that suspend execution and yield
+to another before continuing). This allows your controller code to return query results as simply as
 `var users = yield User.findAll();`. Make sure to checkout the [Koa workshop](https://github.com/koajs/workshop)
 or [this helpful video](http://knowthen.com/episode-2-understanding-javascript-generators/)
 if you're new to generators.
@@ -45,13 +45,13 @@ Next, you'll want to install the [generator-kona](https://github.com/jbielick/ge
 Now you've got yeoman and the kona application generator. Just generate a new
 kona application to get started.
 
-`yo kona myApplication`
+`yo kona myNewApp`
 
-The kona application generator will build an application in the directory `myApplication`.
+The kona application generator will build an application in the directory `myNewApp`.
 It will then run `npm install` and `bower install` to install the server and client
 dependencies you need to run your new application.
 
-Now let's enter the the app directory with `cd myApplication`
+Now let's enter the the app directory with `cd myNewApp`
 
 The generator will also install the `kona` module locally in your `node_modules` folder.
 
@@ -60,10 +60,9 @@ To start the kona application, just use the command-line interface like so to st
 `./node_modules/.bin/kona server`
 
 
-
 ![example app generation][cli]
 
-[cli]: http://i.imgur.com/DPCTWY7.gif "Usage: generate a kona app"
+[cli]: http://i.imgur.com/Mbf0jWz.gif "Usage: generate a kona app"
 
 
 Environment
@@ -111,8 +110,9 @@ and `CountriesController.js` extended `GeographiesController` like this:
 var GeographyController = require('../geographies-controller');
 
 var CountriesController = GeographiesController.extend({
-  show: function* () {
-    // ...
+  index: function* () {
+    var countries = yield this.Countries.find({}).toArray();
+    yield this.respondWith(countries);
   }
 });
 ```
@@ -237,7 +237,7 @@ app/
     user/
       admin-controller.js -- AdminController extends UserController
     foo-controller.js
-    bar/
+    foo/
       bar-controller.js -- where BarController extends FooController
   views/
     user/
