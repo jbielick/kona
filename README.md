@@ -23,9 +23,10 @@ entire application is [Koa.js](https://github.com/koajs/koa) and the middleware
 stack is made up of simple, efficient and modular components. Not sure how Koa works?
 [Kick-Off-Koa](https://github.com/koajs/kick-off-koa) may help.
 
-Kona uses ES6 [Generator Functions](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/function*).
-It's an ECMA Script 6 proposal allowing the use of generators (functions that suspend execution and yield
-to another before continuing). This allows your controller code to return query results as simply as
+Kona uses ES6 [Generator Functions](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/function*) -- part of the
+ECMAScript 6 proposal bringing the use of generators (functions that suspend execution and yield
+to another before continuing) to javascript. This allows your controller (and other) code to perform asynchronous tasks
+while writing your code as if it were synchronous. A database query function is as simple as
 `var users = yield User.findAll();`. Make sure to checkout the [Koa workshop](https://github.com/koajs/workshop)
 or [this helpful video](http://knowthen.com/episode-2-understanding-javascript-generators/)
 if you're new to generators.
