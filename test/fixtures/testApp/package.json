@@ -1,7 +1,0 @@
-{
-  "name": "testApp",
-  "version": "0.0.0",
-  "dependencies": {
-    "kona": "latest"
-  }
-}
