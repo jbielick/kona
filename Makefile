@@ -1,19 +1,25 @@
 TESTS = $$(find test/lib -name *.test.js)
 EXCLUDE = bin/**
+FIXTURES = test/fixtures
+
+fixtures:
+	mkdir -p $(FIXTURES)
 
 clean:
-	@NODE_ENV=test rm -rf ./test/fixtures/testApp
+	rm -rf ./$(FIXTURES)/testApp
 
-test-app: clean
-	@mkdir -p test/fixtures && cd test/fixtures && yo kona testApp && cd ../..
+test-app: clean | fixtures
+	cd $(FIXTURES); \
+	yo kona testApp --skip-welcome-message; \
+	cd ../..
 
-test: test-app
+test:
 	@NODE_ENV=test ./node_modules/.bin/mocha \
 		--harmony \
 		$(TESTS) \
 		--bail
 
-test-cov: test-app
+test-cov:
 	@NODE_ENV=test node --harmony \
 		node_modules/.bin/istanbul cover \
 		./node_modules/.bin/_mocha \
@@ -22,10 +28,10 @@ test-cov: test-app
 		$(TESTS) \
 		--bail
 
-benchmark: test-app
+benchmark:
 	@NODE_ENV=production ./benchmark/simple
 
-test-travis: test-app
+test-ci: test-app
 	@NODE_ENV=test node --harmony \
 		node_modules/.bin/istanbul cover \
 		./node_modules/.bin/_mocha \
@@ -35,4 +41,4 @@ test-travis: test-app
 		$(TESTS) \
 		--bail
 
-.PHONY: test clean benchmark
+.PHONY: test benchmark
