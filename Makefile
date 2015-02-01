@@ -7,13 +7,13 @@ clean:
 test-app: clean
 	@cd test/fixtures && yo kona testApp && cd ../..
 
-test:
+test: test-app
 	@NODE_ENV=test ./node_modules/.bin/mocha \
 		--harmony \
 		$(TESTS) \
 		--bail
 
-test-cov:
+test-cov: test-app
 	@NODE_ENV=test node --harmony \
 		node_modules/.bin/istanbul cover \
 		./node_modules/.bin/_mocha \
@@ -22,7 +22,7 @@ test-cov:
 		$(TESTS) \
 		--bail
 
-benchmark:
+benchmark: test-app
 	@NODE_ENV=production ./benchmark/simple
 
 test-travis: test-app
