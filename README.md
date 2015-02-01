@@ -37,11 +37,11 @@ Installation:
 
 You'll need Yeoman generator to generate a kona application. Use the `-g` option to install it globally so you can use the command-line interface!
 
-`npm install -G yo`
+`npm install -g yo`
 
 Next, you'll want to install the [generator-kona](https://github.com/jbielick/generator-kona) generator so Yeoman can generate the kona application. Install this globally as well with the `-g` option.
 
-`npm install -G generator-kona`
+`npm install -g generator-kona`
 
 Now you've got yeoman and the kona application generator. Just generate a new
 kona application to get started.
@@ -285,7 +285,7 @@ Successful transactions:       15849
 Failed transactions:	           0
 Longest transaction:	        0.72
 Shortest transaction:	        0.05
- 
+
 
 %endbenchmarks
 ```
