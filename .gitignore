@@ -2,6 +2,9 @@
 logs
 *.log
 
+# test fixtures
+test/fixtures
+
 # Runtime data
 pids
 *.pid
