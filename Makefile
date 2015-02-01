@@ -5,7 +5,7 @@ clean:
 	@NODE_ENV=test rm -rf ./test/fixtures/testApp
 
 test-app: clean
-	@cd test/fixtures && yo kona testApp && cd ../..
+	@mkdir -p test/fixtures && cd test/fixtures && yo kona testApp && cd ../..
 
 test: test-app
 	@NODE_ENV=test ./node_modules/.bin/mocha \
