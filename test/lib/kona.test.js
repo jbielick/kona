@@ -48,14 +48,14 @@ describe("Kona", function() {
       });
     });
 
-    it('throws when called twice', function(done) {
+    it('does not initialize twice', function(done) {
 
-      var app = new Kona();
+      var app = new Kona(),
+          spy = sinon.stub(Object.getPrototypeOf(app), 'loadMiddleware');
 
       app.initialize().once('ready', function() {
-        expect(function() {
-          app.initialize();
-        }).to.throw(Error);
+        app.initialize();
+        expect(spy).to.have.been.calledOnce;
         done();
       });
 

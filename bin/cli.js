@@ -10,8 +10,8 @@ var program = require('commander');
 
 program
   .version(require(path.join(pckgRoot, 'package.json')).version)
-  .option('-e, --environment', 'the application environment to run')
-  .option('-p, --port', 'the port to run the kona server on')
+  .option('-e, --environment [env]', 'the application environment to run')
+  .option('-p, --port [port]', 'the port to run the kona server on')
   .option('--debug', 'start the application with debugger running')
   .option('--debug-brk', 'start the application with an immediate debugger');
 
