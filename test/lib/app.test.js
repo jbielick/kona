@@ -17,8 +17,7 @@ describe('Application', function() {
 
   it('displays the home page', function(done) {
 
-    app.initialize();
-    app.on('ready', function() {
+    app.initialize().on('ready', function() {
 
       request(this.listen())
         .get('/')
@@ -31,8 +30,7 @@ describe('Application', function() {
 
   it('displays the home page', function(done) {
 
-    app.initialize();
-    app.on('ready', function() {
+    app.initialize().on('ready', function() {
 
       request(this.listen())
         .get('/nonexistent')
