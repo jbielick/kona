@@ -5,7 +5,7 @@ var expect = chai.expect;
 var sinon = require('sinon');
 chai.use(require('sinon-chai'));
 var Kona = require(path.join(__dirname.replace('test', ''), 'kona'));
-var appPath = path.join(__dirname, '..', 'fixtures', 'testApp');
+var appPath = path.join(__dirname, '..', 'fixtures', 'test-app');
 
 describe('Application', function() {
 

@@ -6,11 +6,11 @@ fixtures:
 	mkdir -p $(FIXTURES)
 
 clean:
-	rm -rf ./$(FIXTURES)/testApp
+	rm -rf ./$(FIXTURES)/test-app
 
 test-app: clean | fixtures
 	cd $(FIXTURES); \
-	yo kona testApp --no-insight; \
+	yo kona test-app --no-insight; \
 	cd ../..
 
 test:
