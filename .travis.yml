@@ -1,5 +1,8 @@
 language: node_js
 node_js:
   - "0.11"
+before_script:
+  - npm install -g yo
+  - npm install -g generator-kona
 script: "make test-travis"
 after_script: "npm install coveralls@2.10.0 && cat ./coverage/lcov.info | coveralls"
