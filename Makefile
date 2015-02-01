@@ -10,7 +10,7 @@ clean:
 
 test-app: clean | fixtures
 	cd $(FIXTURES); \
-	yo kona testApp --skip-welcome-message; \
+	yo kona testApp --no-insight; \
 	cd ../..
 
 test:
