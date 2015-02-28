@@ -56,4 +56,17 @@ describe('Extension: watch', function() {
     // });
   });
 
+  describe('#watchModules', function() {
+
+    it('doesn\'t throw', function() {
+      var paths = ['./', '../', '../../'];
+      var watchSpy = sinon.stub(Object.getPrototypeOf(app), 'watch');
+
+      expect(watchSpy).to.have.callCount(paths.length);
+
+      app.watchModules(paths);
+    });
+
+  });
+
 });

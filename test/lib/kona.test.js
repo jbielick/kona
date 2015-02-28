@@ -136,39 +136,42 @@ describe("Kona", function() {
 
   });
 
-  describe('#hook', function() {
+  describe('#hookFor', function() {
 
-    it('calls the hook name method on all this.hooks that respond', function() {
+    it('yields to the event handlers for the "hooks:{hookname}" event', function() {
 
       var app = new Kona(),
           spy1 = sinon.spy(),
           spy2 = sinon.spy(),
           error;
 
-      app.hooks = {
-        one: {
-          ahook: function* () { spy1(); },
-        },
-        two: {
-          another: function* () { spy2(); }
+      app.on('hook:one', function* () { spy1(); })
+      app.on('hook:two', function* () { spy2(); })
+
+      co(function* () {
+        try {
+          yield app.hookFor('one');
+        } catch (e) {
+          error = e;
         }
-      };
-
-      co.wrap(app.hook).call(app, 'ahook').catch(function(err) {
-        error = err;
       });
 
       if (error) {throw error;}
 
       expect(spy1).to.have.been.called;
+      expect(spy2).to.not.have.been.called;
 
-      co.wrap(app.hook).call(app, 'another').catch(function(err) {
-        error = err;
+      co(function* () {
+        try {
+          yield app.hookFor('two');
+        } catch (e) {
+          error = e;
+        }
       });
 
       if (error) {throw error;}
 
-      expect(spy1).to.have.been.called;
+      expect(spy2).to.have.been.called;
     });
 
   });
