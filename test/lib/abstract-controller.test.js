@@ -3,8 +3,8 @@ var chai = require('chai');
 var expect = chai.expect;
 var sinon = require('sinon');
 chai.use(require('sinon-chai'));
-var Kona = require(path.join(__dirname.replace('test', ''), '..', 'kona'));
-var BaseController = require(__filename.replace(/.test/g, ''));
+var Kona = require(path.join(__dirname.replace(/test\//, ''), 'kona'));
+var AbstractController = require(__filename.replace(/test(\/|\.)?/g, ''));
 var co = require('co');
 var Writable = require('stream').Writable;
 
@@ -21,7 +21,7 @@ describe('controller/base', function() {
 
     beforeEach(function() {
       ctx = getCtx(),
-      controller = new BaseController(ctx, kona);
+      controller = new AbstractController(ctx, kona);
     });
 
     describe('given a key-value pair', function() {
@@ -89,7 +89,7 @@ describe('controller/base', function() {
         router: {},
         throw: function() {}
       };
-      controller = new BaseController(ctx, kona);
+      controller = new AbstractController(ctx, kona);
     });
 
     describe('when no type: *responder object is given', function() {
@@ -188,7 +188,7 @@ describe('controller/base', function() {
 
     beforeEach(function() {
       ctx = getCtx(),
-      controller = new BaseController(ctx, kona);
+      controller = new AbstractController(ctx, kona);
     });
 
     it('adds the respond content-type to an private array', function() {
@@ -211,7 +211,7 @@ describe('controller/base', function() {
 
     beforeEach(function() {
       ctx = {locals: {}, request: {}, router: {}, throw: function() {}};
-      controller = new BaseController(ctx, kona);
+      controller = new AbstractController(ctx, kona);
     });
 
     xit('stores the render call arguments for the responder', function() {
@@ -247,7 +247,7 @@ describe('controller/base', function() {
 
     beforeEach(function() {
       ctx = getCtx(),
-      controller = new BaseController(ctx, kona);
+      controller = new AbstractController(ctx, kona);
     });
 
     it('registers {before|after}Filter functions', function() {
@@ -269,7 +269,7 @@ describe('controller/base', function() {
 
     beforeEach(function() {
       ctx = getCtx(),
-      controller = new (BaseController.extend({
+      controller = new (AbstractController.extend({
         before: function*() {},
         after: function*() {}
       }))(ctx);
@@ -315,15 +315,15 @@ describe('controller/base', function() {
     it('explodes when type is not given and render is not a function', function() {
 
       expect(function() {
-        BaseController.addRenderer(function() {});
+        AbstractController.addRenderer(function() {});
       }).to.throw(Error);
 
       expect(function() {
-        BaseController.addRenderer('josn', function() {});
+        AbstractController.addRenderer('josn', function() {});
       }).to.throw(Error);
 
       expect(function() {
-        BaseController.addRenderer('josn', function*() {});
+        AbstractController.addRenderer('josn', function*() {});
       }).to.not.throw(Error);
 
     });
@@ -334,9 +334,9 @@ describe('controller/base', function() {
       var renderer = function*() {
         return yield '|_|_|1|_|3|_|_|1|_|';
       };
-      BaseController.addRenderer('xlsx', renderer);
+      AbstractController.addRenderer('xlsx', renderer);
 
-      expect(BaseController.getRenderer('xlsx')).to.eq(renderer);
+      expect(AbstractController.getRenderer('xlsx')).to.eq(renderer);
     });
   });
 
@@ -353,7 +353,7 @@ describe('controller/base', function() {
     Object.keys(map).forEach(function(type) {
       describe(type, function() {
         it('returns their input when handled by koa', function() {
-          var renderer = BaseController.getRenderer(type),
+          var renderer = AbstractController.getRenderer(type),
               data = map[type];
 
           co.wrap(renderer)(data).then(function(returned) {
@@ -369,7 +369,7 @@ describe('controller/base', function() {
     it('', function() {
       var error,
           ctx = getCtx(),
-          ctrl = new BaseController(ctx),
+          ctrl = new AbstractController(ctx),
           spy = sinon.spy(Object.getPrototypeOf(ctrl), 'respondTo');
 
       ctrl.respondsTo('html', 'json');
