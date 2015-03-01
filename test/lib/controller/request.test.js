@@ -282,6 +282,7 @@ describe('controller/base', function() {
 
 function getCtx(app) {
   return {
+    locals: {},
     app: app,
     request: {
       accepts: function() {}
