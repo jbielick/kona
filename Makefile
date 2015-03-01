@@ -31,7 +31,7 @@ test-cov:
 benchmark:
 	@NODE_ENV=production ./benchmark/simple
 
-test-ci: test-app
+test-ci:
 	@NODE_ENV=test node --harmony \
 		node_modules/.bin/istanbul cover \
 		./node_modules/.bin/_mocha \

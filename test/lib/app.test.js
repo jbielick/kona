@@ -1,58 +1,31 @@
 var path = require('path');
 var request = require('supertest');
-var chai = require('chai');
-var expect = chai.expect;
-var sinon = require('sinon');
-chai.use(require('sinon-chai'));
 var Kona = require(path.join(__dirname.replace('test', ''), 'kona'));
 var appPath = path.join(__dirname, '..', 'fixtures', 'test-app');
+var expect = require('chai').expect;
 
-describe('Application', function() {
+describe('in a test application fixture', function() {
 
   var app;
 
   beforeEach(function() {
-    app = new Kona({root: appPath});
+    app = new Kona({environment: 'development'});
   });
 
-  it('displays the home page', function(done) {
+  describe('when requesting /', function() {
 
-    app.initialize().on('ready', function() {
+    it('throws a 404', function(done) {
 
-      request(this.listen())
-        .get('/')
-        .expect(200)
-        .expect(/grind/)
-        .end(done);
+      app.initialize().on('ready', function() {
 
+        request(this.server)
+          .get('/')
+          .expect(404)
+          .end(done);
+
+      });
     });
-  });
 
-  it('displays the home page', function(done) {
-
-    app.initialize().on('ready', function() {
-
-      request(this.listen())
-        .get('/nonexistent')
-        .expect(404)
-        .end(done);
-
-    });
-  });
-
-  it('eager-loads modules when config.eagerLoadModules is truthy', function(done) {
-
-    app.hooks['spy'] = {
-      initialize: function* () {
-        this.inApp = true;
-        this.config.eagerLoadModules = true;
-      }
-    };
-
-    app.initialize().on('ready', function() {
-      expect();
-      done();
-    });
   });
 
 });
