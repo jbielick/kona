@@ -9,10 +9,10 @@ var co = require('co');
 var Writable = require('stream').Writable;
 
 describe('controller/base', function() {
-  var kona;
+  var app;
 
   beforeEach(function() {
-    kona = new Kona();
+    app = new Kona();
   });
 
   describe('#set', function() {
@@ -20,8 +20,8 @@ describe('controller/base', function() {
     var controller, ctx;
 
     beforeEach(function() {
-      ctx = getCtx(),
-      controller = new BaseController(ctx, kona);
+      ctx = getCtx(app),
+      controller = new BaseController(ctx);
     });
 
     describe('given a key-value pair', function() {
@@ -89,7 +89,7 @@ describe('controller/base', function() {
         router: {},
         throw: function() {}
       };
-      controller = new BaseController(ctx, kona);
+      controller = new BaseController(ctx);
     });
 
     describe('when no type: *responder object is given', function() {
@@ -188,7 +188,7 @@ describe('controller/base', function() {
 
     beforeEach(function() {
       ctx = getCtx(),
-      controller = new BaseController(ctx, kona);
+      controller = new BaseController(ctx);
     });
 
     it('adds the respond content-type to an private array', function() {
@@ -210,8 +210,8 @@ describe('controller/base', function() {
     var controller, ctx;
 
     beforeEach(function() {
-      ctx = {locals: {}, request: {}, router: {}, throw: function() {}};
-      controller = new BaseController(ctx, kona);
+      ctx = getCtx(app);
+      controller = new BaseController(ctx);
     });
 
     xit('stores the render call arguments for the responder', function() {
@@ -246,8 +246,8 @@ describe('controller/base', function() {
     var controller, ctx;
 
     beforeEach(function() {
-      ctx = getCtx(),
-      controller = new BaseController(ctx, kona);
+      ctx = getCtx(app),
+      controller = new BaseController(ctx);
     });
 
     it('registers {before|after}Filter functions', function() {
@@ -366,22 +366,27 @@ describe('controller/base', function() {
 
   describe('#respondWith', function() {
 
-    it('', function() {
+    it('delegates to respondTo to determine the render func', function(done) {
+
       var error,
-          ctx = getCtx(),
+          ctx = getCtx(app),
           ctrl = new BaseController(ctx),
-          spy = sinon.spy(Object.getPrototypeOf(ctrl), 'respondTo');
+          spy = sinon.spy(Object.getPrototypeOf(ctrl), 'respondTo'),
+          acceptSpy = sinon.stub(ctrl.request, 'accepts').returns();
+
+      ctrl.request.accepts = acceptSpy;
 
       ctrl.respondsTo('html', 'json');
 
       co.wrap(ctrl.respondWith).call(ctrl, {some: 'object'})
+        .then(function() {
+          expect(spy).to.have.been.called;
+          done();
+        })
         .catch(function(err) {
           error = err;
+          done(err);
         });
-
-      if (error) { throw error; }
-
-      expect(spy).to.have.been.called;
 
     })
 
@@ -389,6 +394,13 @@ describe('controller/base', function() {
 
 });
 
-function getCtx() {
-  return {locals: {}, request: {}, router: {}};
+function getCtx(app) {
+  return {
+    app: app,
+    request: {
+      accepts: function() {}
+    },
+    router: {},
+    throw: function() {}
+  };
 }

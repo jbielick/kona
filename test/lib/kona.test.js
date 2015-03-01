@@ -1,5 +1,4 @@
 var path = require('path');
-var fs = require('fs');
 var chai = require('chai');
 var expect = chai.expect;
 var sinon = require('sinon');
@@ -93,10 +92,14 @@ describe("Kona", function() {
     });
 
     it('calls #mountBaseModules', function() {
+
       var app = Object.create(Kona.prototype),
           spy = sinon.spy(Object.getPrototypeOf(app), 'mountBaseModules');
+
       app.bootstrap({});
+
       expect(spy).to.have.been.called;
+
     });
 
   });
@@ -104,71 +107,21 @@ describe("Kona", function() {
   describe('#console', function() {
 
     it('doesn\'t explode', function(done) {
+
       var repl,
-          app = new Kona()
+          app = new Kona();
+
       app.initialize().on('ready', function() {
+
         expect(function() {
-          repl = this.console();
-        }.bind(this)).to.not.throw(Error);
+
+          repl = app.console();
+
+        }).to.not.throw(Error);
+
         repl.close();
         done();
       });
-    });
-
-  });
-
-  describe('#watchModules', function() {
-
-    it('calls #watch on the config.watch targets', function(done) {
-
-      var app = new Kona(),
-          spy = sinon.spy(Object.getPrototypeOf(app), 'watch');
-
-      app.initialize().on('ready', function() {
-
-        app.watchModules();
-        expect(spy).to.have.callCount(app.config.watch.length + 1);
-        done();
-
-      });
-
-    });
-
-  });
-
-  describe('#hook', function() {
-
-    it('calls the hook name method on all this.hooks that respond', function() {
-
-      var app = new Kona(),
-          spy1 = sinon.spy(),
-          spy2 = sinon.spy(),
-          error;
-
-      app.hooks = {
-        one: {
-          ahook: function* () { spy1(); },
-        },
-        two: {
-          another: function* () { spy2(); }
-        }
-      };
-
-      co.wrap(app.hook).call(app, 'ahook').catch(function(err) {
-        error = err;
-      });
-
-      if (error) {throw error;}
-
-      expect(spy1).to.have.been.called;
-
-      co.wrap(app.hook).call(app, 'another').catch(function(err) {
-        error = err;
-      });
-
-      if (error) {throw error;}
-
-      expect(spy1).to.have.been.called;
     });
 
   });
