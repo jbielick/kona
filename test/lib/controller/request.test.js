@@ -255,6 +255,29 @@ describe('controller/base', function() {
 
   });
 
+  describe("#render", function() {
+
+    it('sets the first arg to the body', function(done) {
+
+      var ctx = getCtx(app),
+          ctrl = new RequestController(ctx),
+          data = {one: 'two'};
+
+      expect(ctrl.body).to.be.undefined;
+
+      co(function* () {
+        yield ctrl.render.call(ctrl, data);
+      }).catch(function(err) {
+        done(err);
+      }).then(function() {
+        expect(ctrl.body).to.eql(data);
+        done();
+      });
+
+    });
+
+  });
+
 });
 
 function getCtx(app) {
