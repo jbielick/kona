@@ -40,19 +40,4 @@ describe('Application', function() {
     });
   });
 
-  it('eager-loads modules when config.eagerLoadModules is truthy', function(done) {
-
-    app.hooks['spy'] = {
-      initialize: function* () {
-        this.inApp = true;
-        this.config.eagerLoadModules = true;
-      }
-    };
-
-    app.initialize().on('ready', function() {
-      expect();
-      done();
-    });
-  });
-
 });

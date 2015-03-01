@@ -29,42 +29,45 @@ describe('Extension: watch', function() {
 
   describe('#watch', function() {
 
-    it('doesn\'t throw', function() {
-      expect(function() {
-        app.watch('/tmp', function() {});
-      }).to.not.throw(Error);
+    it('watches a path and registers an onchange handler', function() {
+
+      var onSpy = {on: sinon.spy()},
+          watchSpy = sinon.stub(chokidar, 'watch').returns(onSpy);
+
+      app.watch('/test', function() {});
+
+      expect(watchSpy).to.have.been.calledWith('/test');
+      expect(onSpy.on).to.have.been.calledWith('change');
+
     });
 
-    it('calls the callback when a file changes'); //, function(done) {
-      // fs.writeFileSync(watchablePath, 'test');
-      // var spy = sinon.spy();
-      // chokidar.watch(watchablePath, {ignoreInitial: true})
-      //   .on('change', function() {
-      //     console.log('called');
-      //     done();
-      //   });
-      // setTimeout(function() {
-      //   fs.writeFileSync(watchablePath, 'change');
-      // }, 350)
-      // // setTimeout(function() {
-      // //   watcher.close();
-      // //   setTimeout(function() {
-      // //     expect(spy).to.be.called;
-      // //     done();
-      // //   }, 750);
-      // // }, 1150);
-    // });
   });
 
   describe('#watchModules', function() {
 
-    it('doesn\'t throw', function() {
-      var paths = ['./', '../', '../../'];
-      var watchSpy = sinon.stub(Object.getPrototypeOf(app), 'watch');
+    it('calls #watch on each path provided', function() {
+
+      var paths = ['./', '../', '../../'],
+          watchSpy = sinon.stub(Object.getPrototypeOf(app), 'watch');
+
+      app.watchModules(paths);
 
       expect(watchSpy).to.have.callCount(paths.length);
 
-      app.watchModules(paths);
+      watchSpy.restore();
+
+    });
+
+    it('calls #watch on the config.autoloadPaths targets', function() {
+
+      var app = new Kona(),
+          spy = sinon.stub(Object.getPrototypeOf(app), 'watch');
+
+      app.configure();
+
+      app.watchModules(app.config.autoloadPaths);
+      expect(spy).to.have.callCount(app.config.autoloadPaths.length);
+
     });
 
   });
