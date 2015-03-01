@@ -1,13 +1,9 @@
 var path = require('path');
 var request = require('supertest');
-var chai = require('chai');
-var expect = chai.expect;
-var sinon = require('sinon');
-chai.use(require('sinon-chai'));
 var Kona = require(path.join(__dirname.replace('test', ''), 'kona'));
 var appPath = path.join(__dirname, '..', 'fixtures', 'test-app');
 
-describe('Application', function() {
+describe('in a test application fixture', function() {
 
   var app;
 
@@ -15,28 +11,35 @@ describe('Application', function() {
     app = new Kona({root: appPath});
   });
 
-  it('displays the home page', function(done) {
+  describe('when requesting /', function() {
+    it('displays the home page', function(done) {
 
-    app.initialize().on('ready', function() {
+      app.initialize().on('ready', function() {
 
-      request(this.listen())
-        .get('/')
-        .expect(200)
-        .expect(/grind/)
-        .end(done);
+        request(this.server)
+          .get('/')
+          .expect(200)
+          .expect(/grind/)
+          .end(done);
 
+      });
     });
+
   });
 
-  it('displays the home page', function(done) {
+  describe('when requesting an undefined route', function () {
 
-    app.initialize().on('ready', function() {
+    it('displays the 404 page', function(done) {
 
-      request(this.listen())
-        .get('/nonexistent')
-        .expect(404)
-        .end(done);
+      app.initialize().on('ready', function() {
 
+        request(this.server)
+          .get('/nonexistent')
+          .expect(404)
+          .expect(/no route found/i)
+          .end(done);
+
+      });
     });
   });
 
