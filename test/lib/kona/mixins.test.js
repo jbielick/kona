@@ -46,6 +46,7 @@ describe("#loadMixins", function() {
 
     mixins.forEach(function(mixin) {
       if (/^kona\-.*/i.test(mixin)) {
+        expect(statSyncStub).to.have.been.calledWith('path/to/modules/' + mixin);
         expect(requireSpy).to.have.been.calledWith('path/to/modules/' + mixin);
       }
     });
