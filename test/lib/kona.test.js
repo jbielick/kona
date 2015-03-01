@@ -1,5 +1,4 @@
 var path = require('path');
-var fs = require('fs');
 var chai = require('chai');
 var expect = chai.expect;
 var sinon = require('sinon');
@@ -123,46 +122,6 @@ describe("Kona", function() {
         repl.close();
         done();
       });
-    });
-
-  });
-
-  describe('#hookFor', function() {
-
-    it('yields to the event handlers for the "hooks:{hookname}" event', function() {
-
-      var app = new Kona(),
-          spy1 = sinon.spy(),
-          spy2 = sinon.spy(),
-          error;
-
-      app.on('hook:one', function* () { spy1(); })
-      app.on('hook:two', function* () { spy2(); })
-
-      co(function* () {
-        try {
-          yield app.hookFor('one');
-        } catch (e) {
-          error = e;
-        }
-      });
-
-      if (error) {throw error;}
-
-      expect(spy1).to.have.been.called;
-      expect(spy2).to.not.have.been.called;
-
-      co(function* () {
-        try {
-          yield app.hookFor('two');
-        } catch (e) {
-          error = e;
-        }
-      });
-
-      if (error) {throw error;}
-
-      expect(spy2).to.have.been.called;
     });
 
   });
