@@ -91,17 +91,6 @@ describe("Kona", function() {
       });
     });
 
-    it('calls #mountBaseModules', function() {
-
-      var app = Object.create(Kona.prototype),
-          spy = sinon.spy(Object.getPrototypeOf(app), 'mountBaseModules');
-
-      app.bootstrap({});
-
-      expect(spy).to.have.been.called;
-
-    });
-
   });
 
   describe('#console', function() {
