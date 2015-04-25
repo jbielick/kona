@@ -1,10 +1,10 @@
 var path = require('path');
 var request = require('supertest');
 var Kona = require(path.join(__dirname.replace('test', ''), 'kona'));
-var appPath = path.join(__dirname, '..', 'fixtures', 'test-app');
+// var appPath = path.join(__dirname, '..', 'fixtures', 'test-app');
 var expect = require('chai').expect;
 
-describe('in a test application fixture', function() {
+describe('running the server', function() {
 
   var app;
 
