@@ -103,8 +103,10 @@ describe('AbstractController', function() {
 
       var spy = sinon.spy(Object.getPrototypeOf(controller), 'before');
       controller.beforeFilter('before');
-      var gen = controller.callBeforeFilters();
-      gen.next();
+      var filters = controller.beforeFilters();
+      co(function* () {
+        yield filters;
+      });
       expect(spy).to.be.calledOnce;
 
     });
@@ -113,23 +115,23 @@ describe('AbstractController', function() {
 
       var spy = sinon.spy(Object.getPrototypeOf(controller), 'after');
       controller.afterFilter('after');
-      var gen = controller.callAfterFilters();
-      gen.next();
+      var filters = controller.afterFilters();
+      co(function* () {
+        yield filters;
+      });
       expect(spy).to.be.calledOnce;
     });
 
 
-    it('does nothing when there are no filters', function() {
+    it('returns an empty array when no filters exist', function() {
 
       var gen, result;
       expect(controller._beforeFilters).to.be.empty;
       expect(controller._afterFilters).to.be.empty;
-      gen = controller.callAfterFilters();
-      result = gen.next();
-      expect(result.value).to.be.undefined;
-      gen = controller.callBeforeFilters();
-      result = gen.next();
-      expect(result.value).to.be.undefined;
+      filters = controller.afterFilters();
+      expect(filters).to.be.empty;
+      filters = controller.beforeFilters();
+      expect(filters).to.be.empty;
 
     });
 
