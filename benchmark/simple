@@ -31,6 +31,7 @@ app.initialize().on('ready', function() {
     if (stdout) {
       writeToReadme(contents, function() {
         console.log('done');
+        process.exit(0);
       });
     }
   });
