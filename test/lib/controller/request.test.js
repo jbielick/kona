@@ -282,7 +282,7 @@ describe('controller/base', function() {
 
 function getCtx(app) {
   return {
-    locals: {},
+    state: {},
     app: app,
     request: {
       accepts: function() {}
