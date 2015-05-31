@@ -1,6 +1,8 @@
 kona
 ====
 
+[![Join the chat at https://gitter.im/jbielick/kona](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/jbielick/kona?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
+
 [![Node Version](https://img.shields.io/badge/node.js-%3E=_0.11-orange.svg)](http://nodejs.org)
 [![Build Status](https://travis-ci.org/jbielick/kona.svg?branch=master)](https://travis-ci.org/jbielick/kona)
 [![Coverage Status](https://img.shields.io/coveralls/jbielick/kona.svg)](https://coveralls.io/r/jbielick/kona)
