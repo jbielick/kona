@@ -2,6 +2,7 @@ kona
 ====
 
 [![Node Version](https://img.shields.io/badge/node.js-%3E=_0.11-green.svg)](http://nodejs.org)
+[![Downloads](https://img.shields.io/npm/dm/kona.svg)](https://www.npmjs.com/package/kona)
 [![Build Status](https://travis-ci.org/jbielick/kona.svg?branch=master)](https://travis-ci.org/jbielick/kona)
 [![Coverage Status](https://img.shields.io/coveralls/jbielick/kona.svg)](https://coveralls.io/r/jbielick/kona)
 ![Dependencies](https://david-dm.org/jbielick/kona.svg)
