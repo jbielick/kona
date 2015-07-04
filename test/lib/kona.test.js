@@ -61,7 +61,7 @@ describe("Kona", function() {
     });
   });
 
-  describe('#bootstrap', function() {
+  describe('#construction', function() {
 
     var app,
         promise,

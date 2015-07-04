@@ -17,6 +17,7 @@
     "commander": "^2.8.1",
     "debug": "^2.2.0",
     "delegates": "^0.1.0",
+    "dotenv": "^1.2.0",
     "koa": "^0.21.0",
     "koa-barista": "0.0.2",
     "koa-bodyparser": "^2.0.0",
