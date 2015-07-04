@@ -19,7 +19,8 @@ app.initialize().on('ready', function() {
     '--quiet',
     '--concurrent=500',
     '--time=20s',
-    'http://localhost:' + PORT + '?foo=bar&baz[qux]=souix'
+    'http://localhost:' + PORT + '?foo=bar&baz[qux]=souix',
+    '&>/dev/null'
   ];
 
   exec(args.join(' '), function(err, stderr, stdout) {

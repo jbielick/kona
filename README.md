@@ -270,23 +270,23 @@ siege
   --concurrent=500
   --time=20s
   http://localhost:3001?foo=bar&baz[qux]=souix
-
+  &>/dev/null
 
 Lifting the server siege...-      done.
 
-Transactions:		       15784 hits
-Availability:		      100.00 %
-Elapsed time:		       19.06 secs
-Data transferred:	       10.48 MB
-Response time:		        0.58 secs
-Transaction rate:	      828.12 trans/sec
+Transactions:		       16386 hits
+Availability:		       98.98 %
+Elapsed time:		       19.74 secs
+Data transferred:	       10.88 MB
+Response time:		        0.57 secs
+Transaction rate:	      830.09 trans/sec
 Throughput:		        0.55 MB/sec
-Concurrency:		      478.51
+Concurrency:		      472.83
 Successful transactions:           0
-Failed transactions:	           0
-Longest transaction:	        0.65
+Failed transactions:	         169
+Longest transaction:	        0.77
 Shortest transaction:	        0.00
- 
+
 
 %endbenchmarks
 ```

@@ -10,7 +10,7 @@
   "repository": "https://github.com/jbielick/kona",
   "dependencies": {
     "chalk": "^1.0.0",
-    "chokidar": "^1.0.1",
+    "chokidar": "^1.0.3",
     "class-extend": "^0.1.1",
     "co": "^4.5.4",
     "co-fs": "^1.2.0",
