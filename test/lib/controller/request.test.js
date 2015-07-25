@@ -173,7 +173,6 @@ describe('controller/base', function() {
 
   });
 
-
   describe('::addRenderer', function() {
     it('explodes when type is not given and render is not a function', function() {
 
@@ -287,7 +286,7 @@ function getCtx(app) {
     request: {
       accepts: function() {}
     },
-    router: {},
+    router: function() {},
     throw: function() {}
   };
 }
