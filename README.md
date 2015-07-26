@@ -11,61 +11,52 @@ kona
 What is it?
 ----
 
-Kona is currently under development, but will be published on [NPM](https://www.npmjs.com/package/kona)
-as features are developed.
+Kona is currently under development, but is published on [NPM](https://www.npmjs.com/package/kona) and on the road to 1.0.
 
-Kona is an application framework. It's mission is to make developing really fast
-Node.js applications fun and productive. It's a framework that works as fast as
-you do after a cup of coffee in the morning.
+Kona is micro MVC application framework that puts the tools in your hands to get up and running fast. It's mission is to make developing really fast Node.js applications fun and productive, leveraging the generator-based middleware transport offered by [Koa](koajs/koa).
 
-Kona's focus is loosely-coupled simplicity.
-There aren't a million configurations (yet), you can't use your own middleware in place of
-ours, you don't need 5 json documents to tell it how to start. The basis of the
-entire application is [Koa.js](https://github.com/koajs/koa) and the middleware
-stack is made up of simple, efficient and modular components. Not sure how Koa works?
+Kona's focus is simplicity; it's a thin layer of the application structure you're used to with room for growing.
+There aren't a million configurations (yet), you can't swap out the core middleware, you don't need 5 json documents to tell it how to start. The core of framework stack is [Koa.js](https://github.com/koajs/koa) and the middleware
+stack in Kona is made up of vetted, simple, efficient and modular components. Not sure how Koa works?
 [Kick-Off-Koa](https://github.com/koajs/kick-off-koa) may help.
 
 Kona uses ES6 [Generator Functions](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/function*) -- part of the
-ECMAScript 6 proposal bringing the use of generators (functions that suspend execution and yield
-to another before continuing) to javascript. This allows your controller (and other) code to perform asynchronous tasks
-while writing your code as if it were synchronous. A database query function is as simple as
+ECMAScript 6 draft-standard. This allows your controller (and other) code to perform asynchronous tasks
+while writing your code _as if it were synchronous_. A database query function is as simple as
 `var users = yield User.findAll();`. Make sure to checkout the [Koa workshop](https://github.com/koajs/workshop)
 or [this helpful video](http://knowthen.com/episode-2-understanding-javascript-generators/)
 if you're new to generators.
 
 
-Installation:
+Getting Started:
 ----
 
-You'll need Yeoman generator to generate a kona application. Use the `-g` option to install it globally so you can use the command-line interface!
+You'll need [Yeoman](http://yeoman.io/generators/) to generate a new kona application. The `-g` option tells npm to install it globally so you can use the command-line interface and interact with the kona generator. Next, you'll need [generator-kona](https://github.com/jbielick/generator-kona) so Yeoman can generate the kona application code. Install this globally as well with the `-g` option so Yeoman can find it.
 
-`npm install -g yo`
+You can install them together like this:
 
-Next, you'll want to install the [generator-kona](https://github.com/jbielick/generator-kona) generator so Yeoman can generate the kona application. Install this globally as well with the `-g` option.
-
-`npm install -g generator-kona`
+`> npm install -g yo generator-kona`
 
 Now you've got yeoman and the kona application generator. Just generate a new
 kona application to get started.
 
-`yo kona myNewApp`
+`> yo kona myNewApp`
 
-The kona application generator will build an application in the directory `myNewApp`.
+The kona application generator will build an application in the directory `./myNewApp`.
 It will then run `npm install` and `bower install` to install the server and client
 dependencies you need to run your new application.
 
-Now let's enter the the app directory with `cd myNewApp`
+Now let's enter the the app directory with `cd myNewApp`.
 
-The generator will also install the `kona` module locally in your `node_modules` folder.
+You're ready to go!
 
-To start the kona application, just use the command-line interface like so to start the server:
+To start the kona application, just use the npm script or `node` with the `--harmony` flag to start the server:
 
-`./node_modules/.bin/kona server`
-
+`npm start` or `node --harmony app.js`.
 
 ![example app generation][cli]
 
-[cli]: http://i.imgur.com/Mbf0jWz.gif "Usage: generate a kona app"
+[cli]: http://i.imgur.com/Mbf0jWz.gif "Getting Started: Generate a kona application"
 
 
 Environment
@@ -74,7 +65,7 @@ Environment
 The application will start in `development` environment by default.
 
 To set the application to start in another environment, use an environmental variable like this
-`NODE_ENV=production kona s`.
+`NODE_ENV=production`.
 
 
 Routing
@@ -89,8 +80,7 @@ can be called on the router object that is passed into the `drawRoutes` function
 When mapping a route to a controller and action, use the barista pattern `controllerName.actionName`.
 The dispatcher will use this path to resolve the controller and direct the request to the appropriate action.
 
-When mapping a route to a nested (extended) controller, you can use `/` to indicate the nesting location of the controller the request
-should be dispatched to.
+When mapping a route to a nested (extended) controller, you can use `/` to indicate the nesting location of the controller the request should be dispatched to.
 
 For example:
 
@@ -133,8 +123,8 @@ module.exports = function drawRoutes(router) {
 Mixins
 ----
 
-Take advantage of mixins and adding functionality to your app with kona hooks.
-By simply installing a `kona-*` mixin, it will automatically be hooked into your app.
+Take advantage of mixins to add functionality and services to your app.
+By simply installing a `kona-*` mixin, it will initialize with your app and decorate your controller with the module's functionality.
 
 Take [kona-redis](https://github.com/jbielick/kona-redis/commits?author=jbielick) for example:
 
@@ -168,13 +158,13 @@ Now you can use redis in your controller action as simply as:
 PubSub (WebSockets)
 ----
 
-**pending**
+**TBD**
 
 
 Model Exposure
 ----
 
-**pending**
+**TBD**
 
 Would models in the global scope be cool? Sure. But it’s probably not a good idea.
 Models can have any name—-the global namespace would get horribly messy in big apps, and
@@ -189,8 +179,8 @@ You can perform a query or model constructor method right inside the controller 
 
 index: function* () {
 
-  // User.find() is a function that returns a promise object
-  var users = yield this.User.find();
+  // mongo.users.find() is a function that returns a promise object
+  var users = yield this.mongo.users.find().toArray();
 
   // respond to the request
   this.respondTo({
@@ -204,14 +194,9 @@ index: function* () {
 }
 ```
 
-`this.ModelName` actually uses an getter function to require the model. When the application is in
-`development` environment, the model will be required and further accesses of the model
-will use the `require` warm cache for those fetches. When a model is saved in `development`
-environment, the cache of that model is deleted and the model is required from the file
-system again on demand. Models are lazily-loaded in development.
+`this.mongo` is an accessor added by the `kona-mongo` module decoration.
 
-**/pending**
-
+**/TBD**
 
 Autoloading
 ----
@@ -222,6 +207,7 @@ In `production`, all modules are loaded and cached during the application initia
 
 You can change the autoloading behavior in dev to work like production by setting `config.eagerLoadModules = true;`.
 
+You can also add more files to the autoload watch list by pushing relative paths onto the `config.autoloadPaths` array. ex: `config.autoloadPaths.push('app/services');`
 
 Directory Structure
 ----
@@ -258,6 +244,8 @@ Contributing
 ----
 
 Pull Requests are welcome.
+Run the tests with `make test`
+Coverage report is in `./coverage`
 
 Benchmarks
 ----
