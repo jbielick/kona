@@ -9,49 +9,37 @@ var fs = require('fs');
 
 describe("#loadMixins", function() {
 
-    var mixins = [
-      'kona-mixinone',
-      'kona-mixin-two',
-      'not-a-mixin'
-    ],
-    existsStub,
-    readdirStub,
-    statSyncStub,
+    var manifest = {
+      dependencies: {
+        'kona-mixinone': '^1.0.0',
+        'kona-mixin-two': '~>0.1.7',
+        'not-a-mixin': '=0.0.1'
+      }
+    },
+    readFileSync,
     app;
 
   beforeEach(function() {
-
     app = new Kona();
-
-    existsStub = sinon.stub(fs, 'existsSync').returns(true);
-    readdirStub = sinon.stub(fs, 'readdirSync').returns(mixins);
-    statSyncStub = sinon.stub(fs, 'statSync').returns({isDirectory: function() { return true; }});
-
+    readFileSync = sinon.stub(fs, 'readFileSync').returns(JSON.stringify(manifest));
   });
 
   afterEach(function() {
-
-    readdirStub.restore();
-    existsStub.restore();
-    statSyncStub.restore();
-
+    readFileSync.restore();
   });
 
   it('calls #requireMixin for modules matching kona-*', function() {
 
     var requireSpy = sinon.stub(app, 'requireMixin');
+    var manifestPath = 'path/to/manifest.json';
 
-    app.loadMixins('path/to/modules');
-    expect(readdirStub).to.have.been.calledWith('path/to/modules');
+    app.loadMixins(manifestPath);
+    expect(readFileSync).to.have.been.calledWith(manifestPath);
 
-    mixins.forEach(function(mixin) {
-      if (/^kona\-.*/i.test(mixin)) {
-        expect(statSyncStub).to.have.been.calledWith('path/to/modules/' + mixin);
-        expect(requireSpy).to.have.been.calledWith('path/to/modules/' + mixin);
-      }
-    });
+    expect(requireSpy).to.have.been.calledWith('kona-mixinone');
+    expect(requireSpy).to.have.been.calledWith('kona-mixin-two');
 
-    expect(requireSpy).to.have.callCount(mixins.length - 1);
+    expect(requireSpy).to.have.callCount(2);
 
   });
 

@@ -49,8 +49,8 @@
     "supertest": "^0.14.0"
   },
   "scripts": {
-    "test": "mocha --harmony test/**",
-    "test-cov": "node --harmony node_modules/.bin/istanbul cover ./node_modules/.bin/_mocha -- -u exports test/** --bail"
+    "test": "NODE_ENV=test mocha --harmony test/**",
+    "test-cov": "NODE_ENV=test node --harmony node_modules/.bin/istanbul cover ./node_modules/.bin/_mocha -- -u exports test/** --bail"
   },
   "keywords": [
     "framework",
