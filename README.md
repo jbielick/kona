@@ -13,7 +13,7 @@ What is it?
 
 Kona is currently under development, but is published on [NPM](https://www.npmjs.com/package/kona) and on the road to 1.0.
 
-Kona is micro MVC application framework that puts the tools in your hands to get up and running fast. It's mission is to make developing really fast Node.js applications fun and productive, leveraging the generator-based middleware transport offered by [Koa](koajs/koa).
+Kona is micro API framework that puts the tools in your hands to get up and running fast. Its mission is to make developing really fast Node.js applications fun and productive, leveraging the generator-based control-flow middleware offered by [Koa](koajs/koa).
 
 Kona's focus is simplicity; it's a thin layer of the application structure you're used to with room for growing.
 There aren't a million configurations (yet), you can't swap out the core middleware, you don't need 5 json documents to tell it how to start. The core of framework stack is [Koa.js](https://github.com/koajs/koa) and the middleware
