@@ -3,10 +3,16 @@
 var exec = require('child_process').exec;
 var path = require('path');
 var Kona = require(path.join(__dirname, '../lib/kona'));
-var app = new Kona();
+var app = new Kona({env: 'production'});
 var fs = require('fs');
 
-var PORT = process.env['PORT'] || 3001;
+var PORT = process.env.PORT || 3001;
+
+app.use(function* (next) {
+  yield next;
+  this.body = 'Hello world';
+  this.status = 200;
+});
 
 app.initialize().on('ready', function() {
 
@@ -17,19 +23,19 @@ app.initialize().on('ready', function() {
     '--benchmark',
     '--log=./benchmark/siege.log',
     '--quiet',
-    '--concurrent=500',
-    '--time=20s',
-    'http://localhost:' + PORT + '?foo=bar&baz[qux]=souix',
-    '&>/dev/null'
+    '--concurrent=300',
+    '--time=10s',
+    'http://localhost:' + PORT + '?foo=bar&baz[qux]=souix'
   ];
 
   exec(args.join(' '), function(err, stderr, stdout) {
+    var contents;
     app.shutdown();
     if (err) {throw err;}
     if (stderr) {console.error(stderr);}
-    var contents = args.join("\n  ") + "\n\n" + stdout;
-    console.log(contents);
     if (stdout) {
+      contents = args.join("\n  ") + "\n\n" + stdout;
+      console.log(contents);
       writeToReadme(contents, function() {
         console.log('done');
         process.exit(0);
