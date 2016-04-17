@@ -16,9 +16,11 @@ describe('running the server', function() {
 
     it('throws a 404', function(done) {
 
-      app.initialize().on('ready', function() {
+      app
+        .initialize()
+        .then(function(app) {
 
-        request(this.server)
+        request(app.server)
           .get('/')
           .expect(404)
           .end(done);

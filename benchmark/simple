@@ -14,7 +14,7 @@ app.use(function* (next) {
   this.status = 200;
 });
 
-app.initialize().on('ready', function() {
+app.initialize().then(function(app) {
 
   app.listen(PORT);
 

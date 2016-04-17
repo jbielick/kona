@@ -41,8 +41,8 @@ describe("Kona", function() {
   describe('#initialize', function() {
     it('configures itself', function(done) {
       var app = new Kona();
-      app.initialize().on('ready', function() {
-        expect(this.config).to.be.an('object');
+      app.initialize().then(function(app) {
+        expect(app.config).to.be.an('object');
         done();
       });
     });
@@ -52,10 +52,11 @@ describe("Kona", function() {
       var app = new Kona(),
           spy = sinon.stub(Object.getPrototypeOf(app), 'loadMiddleware');
 
-      app.initialize().once('ready', function() {
-        app.initialize();
-        expect(spy).to.have.been.calledOnce;
-        done();
+      app.initialize().then(function() {
+        app.initialize().then(function() {
+          expect(spy).to.have.been.calledOnce;
+          done();
+        });
       });
 
     });
@@ -100,7 +101,7 @@ describe("Kona", function() {
       var repl,
           app = new Kona();
 
-      app.initialize().on('ready', function() {
+      app.initialize().then(function(app) {
 
         expect(function() {
 
@@ -121,8 +122,8 @@ describe("Kona", function() {
 
       var app = new Kona();
 
-      app.initialize().on('ready', function() {
-        var server = this.listen(9999);
+      app.initialize().then(function(app) {
+        var server = app.listen(9999);
 
         expect(server).to.be.truthy;
 
@@ -147,10 +148,10 @@ describe("Kona", function() {
 
       var app = new Kona();
 
-      app.initialize().on('ready', function() {
+      app.initialize().then(function(app) {
         var server;
 
-        server = this.listen(9999);
+        server = app.listen(9999);
 
         expect(server).to.be.an.instanceof(require('http').Server);
 

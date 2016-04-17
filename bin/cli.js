@@ -23,8 +23,8 @@ program
   .action(function() {
     ensureApp();
     var app = new Kona(program);
-    app.initialize().on('ready', function() {
-      this.listen(program.port);
+    app.initialize().then(function(app) {
+      app.listen(program.port);
     });
   });
 
@@ -35,9 +35,9 @@ program
   .action(function() {
     ensureApp();
     var app = new Kona(program);
-    app.initialize().on('ready', function() {
+    app.initialize().then(function(app) {
       console.log();
-      console.log(this.router.toString());
+      console.log(app.router.toString());
       console.log();
       app.shutdown();
     });
@@ -51,8 +51,8 @@ program
   .action(function() {
     ensureApp();
     var app = new Kona(program);
-    app.initialize().on('ready', function() {
-      this.console();
+    app.initialize().then(function(app) {
+      app.console();
     });
   });
 
