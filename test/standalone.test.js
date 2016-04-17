@@ -1,8 +1,13 @@
 var path = require('path');
 var request = require('supertest');
-var Kona = require(path.join(__dirname.replace('test', ''), 'kona'));
+var Kona = require(path.join(__dirname.replace('test', '')));
 var expect = require('chai').expect;
 
+/**
+ * Standalone tests:
+ * without a generated, backing application directory structure,
+ * the kona app should still be usable
+ */
 describe('running the server', function() {
 
   var app;

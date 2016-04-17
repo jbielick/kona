@@ -5,4 +5,8 @@ app
   .initialize()
   .then(function(app) {
     app.listen();
+  })
+  .catch(function(err) {
+    console.error(err.stack);
+    process.exit(1);
   });

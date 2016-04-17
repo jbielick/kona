@@ -60,6 +60,26 @@ describe("Kona", function() {
       });
 
     });
+
+    it('rejects if not successful', function(done) {
+
+      var app = new Kona();
+
+      app.configure = function() {
+        throw new Error('test fake!');
+      }
+
+      app
+        .initialize()
+        .then(function(app) {
+          done(new Error('did not reject'));
+        })
+        .catch(function(err) {
+          expect(err.stack).to.match(/test fake/);
+          done();
+        });
+    });
+
   });
 
   describe('#construction', function() {
@@ -148,20 +168,43 @@ describe("Kona", function() {
 
       var app = new Kona();
 
-      app.initialize().then(function(app) {
-        var server;
-
-        server = app.listen(9999);
-
-        expect(server).to.be.an.instanceof(require('http').Server);
-
-        server.close();
-
-        done();
-      });
+      app
+        .initialize()
+        .then(function(app) {
+          var server;
+          server = app.listen(9999);
+          expect(server).to.be.an.instanceof(require('http').Server);
+          server.close();
+          done();
+        })
+        .catch(done);
 
     });
 
-  })
+  });
+
+  describe('#shutdown', function() {
+
+    it('resolves if the server isn\'t started', function(done) {
+      var app = new Kona();
+      app.shutdown().then(function() {done();}).catch(done);
+    });
+
+    it('gracefully shuts down the server', function(done) {
+
+      var app = new Kona();
+      app
+        .initialize()
+        .then(function(app) {
+          app.listen(9999);
+          app
+            .shutdown()
+            .then(function() { done(); })
+            .catch(done);
+        })
+        .catch(done);
+    });
+
+  });
 
 });
