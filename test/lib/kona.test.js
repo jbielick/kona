@@ -105,13 +105,6 @@ describe("Kona", function() {
       expect(app.version).to.eq(require('../../package').version);
     });
 
-    it('instantiates a logger', function() {
-      expect(app.log).to.be.a('object');
-      ['info', 'error', 'warn'].forEach(function(level) {
-        expect(app.log[level]).to.be.a('Function');
-      });
-    });
-
   });
 
   describe('#console', function() {

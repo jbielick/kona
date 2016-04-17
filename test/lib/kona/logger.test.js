@@ -4,41 +4,38 @@ var Kona = require('../../../lib/kona');
 var exec = require('child_process').exec;
 var Logger = require('winston').Logger;
 var path = require('path');
-var logPath = '/tmp/kona.log';
 
 describe('Extension: logger', function() {
 
   var app;
 
-  beforeEach(function() {
+  beforeEach(function(done) {
     app = new Kona();
-    exec('rm ' + logPath);
+    app
+      .initialize()
+      .then(function() {done();})
+      .catch(done);
   });
 
-  afterEach(function() {
-    exec('rm ' + logPath);
-  });
+  describe('#mountLogger', function() {
 
-  it('exposes #createLogger', function() {
-    expect(app.createLogger).to.be.a('Function');
-  });
-
-  describe('#createLogger', function() {
-
-    it('exposes a #log method', function() {
-      app.createLogger(logPath);
-      expect(app.log).to.include.keys('info', 'error', 'warn', 'verbose');
+    it('exposes log methods', function() {
+      var logMethods = ['info', 'error', 'warn', 'verbose'];
+      expect(app.log).to.include.keys(logMethods);
+      logMethods.forEach(function(level) {
+        expect(app.log[level]).to.be.a('Function');
+      });
     });
 
     it('creates the log file if not exists', function() {
-      var logger = app.createLogger(logPath);
-      expect(logger.transports).to.include.keys('file');
-      expect(logger.transports.file.filename).to.eq(path.basename(logPath));
+      expect(app.log.transports).to.include.keys('file');
+      expect(app.log.transports.file.filename).to.eq(path.basename(app.env + '.log'));
     });
 
     it('returns a winston.Logger instance', function() {
-      expect(app.createLogger(logPath)).to.be.an.instanceof(Logger);
+      expect(app.log).to.be.an.instanceof(Logger);
     });
+
   });
 
 });
