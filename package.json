@@ -32,6 +32,7 @@
     "koa-session": "^3.1.0",
     "koa-static": "^1.4.9",
     "koa-views": "^3.0.0",
+    "koa-x-request-id": "1.1.0",
     "lodash": "^2.4.2",
     "node-cache": "^2.1.1",
     "require-all": "^1.1.0",
