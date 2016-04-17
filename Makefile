@@ -1,34 +1,34 @@
 TESTS = $$(find ./test -name *.test.js)
 EXCLUDE = bin/**
 FIXTURES = test/fixtures
-TEST_APP = $(FIXTURES)/test-app
+TEST_APP = $(FIXTURES)/app
 GLOBAL_KONA_BIN=$(npm -g bin)/kona
 
 $(FIXTURES):
 	mkdir -p $@
 
-$(FIXTURES)/test-app:
+$(FIXTURES)/app:
 	mkdir -p $@/node_modules
 	cd $@; \
 		npm link kona; \
 		cd ..; \
-		yo kona test-app --no-insight
+		yo kona app --no-insight
 
 clean:
-	rm -rf ./$(FIXTURES)/test-app
+	rm -rf ./$(FIXTURES)/app
 
-test-app: link | $(FIXTURES)/test-app
+app: link | $(FIXTURES)/app
 
 $(GLOBAL_KONA_BIN):
 	npm link
 
-test: test-app
+test: app
 	@NODE_ENV=test ./node_modules/.bin/mocha \
 		--harmony \
 		$(TESTS) \
 		--bail
 
-test-cov: test-app
+test-cov: app
 	@NODE_ENV=test node --harmony \
 		node_modules/.bin/istanbul cover \
 		./node_modules/.bin/_mocha \
@@ -37,7 +37,7 @@ test-cov: test-app
 		$(TESTS) \
 		--bail
 
-test-ci: test-app
+test-ci: app
 	@NODE_ENV=test node --harmony \
 		node_modules/.bin/istanbul cover \
 		./node_modules/.bin/_mocha \

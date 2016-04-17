@@ -1,0 +1,5 @@
+app/assets/bower_components
+node_modules
+log
+npm-*.log
+public/assets
