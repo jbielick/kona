@@ -12,7 +12,7 @@ $(FIXTURES)/app:
 	cd $@; \
 		npm link kona; \
 		cd ..; \
-		yo kona app --no-insight
+		kona generate app app -- --no-insight
 
 clean:
 	rm -rf ./$(FIXTURES)/app

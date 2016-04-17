@@ -3,7 +3,7 @@
   "version": "0.0.0",
   "main": "app.js",
   "dependencies": {
-    "kona": "1.0.0"
+    "kona": "^1.0.0"
   },
   "scripts": {
     "start": "./node_modules/.bin/kona server",
