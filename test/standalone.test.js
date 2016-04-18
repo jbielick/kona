@@ -1,6 +1,6 @@
 var path = require('path');
 var request = require('supertest');
-var Kona = require(path.join(__dirname.replace('test', '')));
+var Kona = require('../kona');
 var expect = require('chai').expect;
 
 /**

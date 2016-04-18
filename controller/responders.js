@@ -45,18 +45,10 @@ module.exports = {
   respondTo: function* (formatMap) {
 
     var responder = null,
-        acceptable;
+        acceptable = this.request.accepts(Object.keys(formatMap));
 
     if (!_.isPlainObject(formatMap)) {
       return this.throw(500, 'Argument given to #respondTo is not an object');
-    }
-
-    if (this.router.match && this.router.match.format) {
-      acceptable = this.router.match.format;
-    }
-
-    if (!acceptable) {
-      acceptable = this.request.accepts(Object.keys(formatMap));
     }
 
     if (acceptable && _.isFunction(formatMap[acceptable])) {

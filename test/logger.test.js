@@ -1,6 +1,6 @@
 var chai = require('chai');
 var expect = chai.expect;
-var Kona = require('../../../lib/kona');
+var Kona = require('../kona');
 var exec = require('child_process').exec;
 var Logger = require('winston').Logger;
 var path = require('path');

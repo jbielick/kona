@@ -6,7 +6,7 @@ var sinon = require('sinon');
 var Koa = require('koa');
 chai.use(require('sinon-chai'));
 var dispatcher = require(__filename.replace(/test(\.|\/)/g, ''));
-var stubControllerPath = path.resolve(__dirname, '../../fixtures/test-controller');
+var stubControllerPath = path.resolve(__dirname, '../fixtures/test-controller');
 var StubController = require(stubControllerPath);
 
 describe('dispatcher', function () {

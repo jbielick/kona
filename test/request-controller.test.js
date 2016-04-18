@@ -3,7 +3,7 @@ var chai = require('chai');
 var expect = chai.expect;
 var sinon = require('sinon');
 chai.use(require('sinon-chai'));
-var Kona = require(path.join(__dirname.replace(/test\//, ''), '..', 'kona'));
+var Kona = require('../kona');
 var RequestController = require(__filename.replace(/test(\/|\.)?/g, ''));
 var co = require('co');
 var Writable = require('stream').Writable;

@@ -1,5 +1,5 @@
 var util = require('util');
-var support = require('../support');
+var support = require('./support');
 var _ = support.Utilities;
 
 
@@ -9,19 +9,19 @@ var _ = support.Utilities;
  *
  * @param {Context} ctx Koa.Context instance from the request
  */
-function AbstractController() {
+function Controller() {
   this.locals = {};
 }
 
 /*
  * Prototype
  */
-_.extend(AbstractController.prototype,
-  require('./filters'),
-  require('./rendering')
+_.extend(Controller.prototype,
+  require('./controller/filters'),
+  require('./controller/rendering')
 );
 
-_.extend(AbstractController.prototype, {
+_.extend(Controller.prototype, {
   /**
    * set a variable (or variables) to the locals that will be provided to the
    * view.
@@ -53,11 +53,11 @@ _.extend(AbstractController.prototype, {
  * example:
  *
  * ```
- *   var AbstractController = require('kona/lib/controller/abstract');
+ *   var Controller = require('kona/controller');
  *
- *   var ApplicationController = AbstractController.extend({
+ *   var ApplicationController = Controller.extend({
  *     constructor: function() {
- *       AbstractController.apply(this, arguments);
+ *       Controller.apply(this, arguments);
  *       this.beforeFilter('authenticate');
  *     }
  *   })
@@ -67,24 +67,17 @@ _.extend(AbstractController.prototype, {
  * @param {Object} prototype an object that will be used at the prototype for
  *                           the child object inheriting from this one.
  */
-AbstractController.extend = require('class-extend').extend;
-
-
-/**
- * a slightly more classical way to extend this controller. uses util.inehrits
- * to rebase the given constructor on `this` prototype without calling
- * constrcutor functions. Beware, it modifies the given constructor in-place.
- *
- * @param  {Function} constructor the constructor to inherit from this
- * @return {Function}             the constructor that inherits from this.
- */
-AbstractController.rebase = _.partialRight(util.inherits, AbstractController);
+Controller.extend = require('class-extend').extend;
 
 
 /**
  * Statics
  */
-_.extend(AbstractController, require('./renderers'));
+_.extend(
+  Controller,
+  require('./controller/renderers'),
+  require('./controller/invocation')
+);
 
 
-module.exports = AbstractController;
+module.exports = Controller;

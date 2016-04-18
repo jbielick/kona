@@ -33,11 +33,11 @@ module.exports = function(app) {
         return yield next;
 
       // else, we will respond if a controller is mounted for the request
-      } else if (this.controller) {
+      } else if (this.controllerName) {
 
         // caching is handled by koa-views
-        template = this.router.match.action;
-        dirs = this.router.match.controller.split('/');
+        template = this.actionName;
+        dirs = this.controllerName.controller.split('/');
         folder = dirs.join(path.sep);
         depth = dirs.length;
 

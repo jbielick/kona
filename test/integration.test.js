@@ -1,6 +1,6 @@
 var path = require('path');
 var request = require('supertest');
-var Kona = require('../lib/kona');
+var Kona = require('../kona');
 var fixtureAppPath = path.join(__dirname, 'fixtures', 'app');
 var expect = require('chai').expect;
 
@@ -10,6 +10,9 @@ describe('integration', function() {
 
   beforeEach(function(done) {
     app = new Kona({root: fixtureAppPath, environment: 'development'});
+    app.on('error', function(err) {
+      console.error(err.stack);
+    });
     app
       .initialize()
       .then(function() {

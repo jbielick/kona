@@ -3,18 +3,18 @@ var chai = require('chai');
 var expect = chai.expect;
 var sinon = require('sinon');
 chai.use(require('sinon-chai'));
-var Kona = require(path.join(__dirname.replace(/test\//, ''), '..', 'kona'));
-var AbstractController = require(__filename.replace(/test(\/|\.)?/g, ''));
+var Kona = require('../kona');
+var Controller = require(__filename.replace(/test(\/|\.)?/g, ''));
 var co = require('co');
 
-describe('AbstractController', function() {
+describe('Controller', function() {
 
   describe('#set', function() {
 
     var controller;
 
     beforeEach(function() {
-      controller = new AbstractController();
+      controller = new Controller();
     });
 
     describe('given a key-value pair', function() {
@@ -72,7 +72,7 @@ describe('AbstractController', function() {
     var controller;
 
     beforeEach(function() {
-      controller = new AbstractController();
+      controller = new Controller();
     });
 
     it('registers {before|after}Filter functions', function() {
@@ -93,7 +93,7 @@ describe('AbstractController', function() {
     var controller;
 
     beforeEach(function() {
-      controller = new (AbstractController.extend({
+      controller = new (Controller.extend({
         before: function*() {},
         after: function*() {}
       }))();

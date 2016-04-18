@@ -3,7 +3,7 @@ var chai = require('chai');
 var expect = chai.expect;
 var sinon = require('sinon');
 chai.use(require('sinon-chai'));
-var Kona = require(path.resolve(__filename.replace(/.test/g, ''), '..'));
+var Kona = require(path.resolve(__filename.replace(/.test/g, '')));
 var co = require('co');
 var fs = require('fs');
 

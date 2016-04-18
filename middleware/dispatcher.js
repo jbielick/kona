@@ -2,7 +2,7 @@ var path = require('path');
 var debug = require('debug')('kona:dispatcher');
 var format = require('util').format;
 var assert = require('assert');
-var RequestController = require('../controller/request');
+var RequestController = require('../request-controller');
 
 module.exports = function (app) {
 

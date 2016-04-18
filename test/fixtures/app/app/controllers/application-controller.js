@@ -1,9 +1,9 @@
-var Controller = require('kona/lib/controller/request');
+var RequestController = require('kona/request-controller');
 
-var ApplicationController = Controller.extend({
+var ApplicationController = RequestController.extend({
 
   constructor: function() {
-    Controller.apply(this, arguments);
+    RequestController.apply(this, arguments);
   }
 
 });

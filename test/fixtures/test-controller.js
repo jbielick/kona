@@ -1,4 +1,4 @@
-var RequestController = require('../../lib/controller/request');
+var RequestController = require('../../request-controller');
 
 var StubController = RequestController.extend({
   constructor: function() {}

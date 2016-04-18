@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "description": "a premium Node.js MVC framework built on koa",
   "bin": "./bin/cli.js",
-  "main": "./lib/kona.js",
+  "main": "./index.js",
   "directories": {
     "test": "test"
   },
@@ -17,9 +17,9 @@
     "debug": "^2.2.0",
     "delegates": "^0.1.0",
     "dotenv": "^1.2.0",
+    "generator-kona": "^1.0.0",
     "istanbul": "0.4.3",
     "koa": "^0.21.0",
-    "koa-barista": "0.0.2",
     "koa-bodyparser": "^2.0.0",
     "koa-compose": "^2.3.0",
     "koa-conditional-get": "^1.0.2",
@@ -29,6 +29,7 @@
     "koa-logger": "^1.2.2",
     "koa-methodoverride": "^0.3.1",
     "koa-response-time": "^1.0.2",
+    "koa-router": "5.4.0",
     "koa-session": "^3.1.0",
     "koa-static": "^1.4.9",
     "koa-views": "^3.0.0",
@@ -39,8 +40,7 @@
     "swig": "^1.4.2",
     "underscore.inflections": "^0.2.1",
     "winston": "1.1.2",
-    "yeoman-environment": "1.5.2",
-    "generator-kona": "^1.0.0"
+    "yeoman-environment": "1.5.2"
   },
   "devDependencies": {
     "chai": "^1.9.2",

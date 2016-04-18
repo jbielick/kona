@@ -32,12 +32,13 @@ function Kona(options) {
   // setup kona root and application paths / helpers
   this.setupPaths(options);
 
-  // kona's module semver version
+  // kona module version
   this.version = require(this._root.join('package.json')).version;
 
   // setup env vars, logger, needed modules
   this.setupEnvironment(options);
 
+  // load mixins based off of app's package.json
   this.loadMixins(this.root.join('package.json'));
 }
 
@@ -50,9 +51,9 @@ inherits(Kona, Koa);
  * extend Kona.prototype
  */
 _.extend(Kona.prototype,
-  require('./kona/logger'),
-  require('./kona/mixins'),
-  require('./kona/hooks')
+  require('./logger'),
+  require('./mixins'),
+  require('./hooks')
 );
 _.extend(Kona.prototype, {
 
@@ -65,14 +66,14 @@ _.extend(Kona.prototype, {
    */
   configure: function () {
 
-    var appConfigPath = this.root.join('config', 'application');
+    var appConfigPath = this.root.join('config', 'application.js');
     var envConfigPath = this.root.join('config', 'environment', this.env + '.js');
     var appConfig;
     var envConfig;
 
      debug('configuring');
 
-     appConfig = require(this._root.join('lib', 'config'))(this);
+     appConfig = require(this._root.join('config'))(this);
 
     if (fs.existsSync(appConfigPath)) {
       // application.js configuration
@@ -157,7 +158,7 @@ _.extend(Kona.prototype, {
     this.root = new LivePath(options.root || process.cwd());
 
     // livepath for the kona module root
-    this._root = new LivePath(path.resolve(__dirname, '..'));
+    this._root = new LivePath(__dirname);
 
     debug('Application CWD: ' + this.root.toString());
   },
@@ -198,8 +199,6 @@ _.extend(Kona.prototype, {
       'etag',
       'views',
       'router',
-      'dispatcher',
-      'invocation',
       'autoresponder'
     ].map(function(name) {
       return path.resolve(__dirname, join('middleware', name));
