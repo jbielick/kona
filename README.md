@@ -11,7 +11,7 @@ kona
 What is it?
 ----
 
-Kona is currently under development, but is published on [NPM](https://www.npmjs.com/package/kona) and on the road to 1.0.
+This project is not currently maintained, but I'd be glad to help fix something if you need it.
 
 Kona is micro API framework that puts the tools in your hands to get up and running fast. Its mission is to make developing really fast Node.js applications fun and productive, leveraging the generator-based control-flow middleware offered by [Koa](koajs/koa).
 
